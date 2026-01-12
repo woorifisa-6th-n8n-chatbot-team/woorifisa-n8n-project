@@ -1,0 +1,5 @@
+- pipeline.id: chat-to-elasticsearch
+  path.config: "/usr/share/logstash/pipeline/chat-to-elasticsearch.conf"
+
+- pipeline.id: quiz-to-elasticsearch
+  path.config: "/usr/share/logstash/pipeline/quiz-to-elasticsearch.conf"

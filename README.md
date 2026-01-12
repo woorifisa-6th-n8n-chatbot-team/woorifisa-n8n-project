@@ -1,16 +1,19 @@
-# 📘 우리 FISA 클라우드엔지니어링 챗봇
+# AI-Driven Learning Assistant Platform
 
-우리 FISA 엔지니어링반 챗봇은 수업 내용, 과제 일정, 수강 후기 등을 한 곳에 모아 실시간으로 안내하는 학습 파트너입니다. n8n 기반 워크플로우와 LLM을 결합해 질의응답, 일정 공지, 후기 요약을 자동화하며, 공용 지식 저장소를 최신 상태로 유지합니다.
+![banner](./docs/readme/banner.png)
+
+## 📖 프로젝트 개요
+![overview](./docs/readme/overview.png)
+
+학습·업무 과정에서 발생하는 지식 휘발과 반복 질문을 줄이기 위한 **RAG 기반 학습/지식 지원 솔루션입니다.**  
+
+Notion, Blog 등 비정형 자료를 벡터화해 질의에 근거 기반 답변을 제공하고, **n8n으로 크롤링–정제–적재–스케줄 실행 등 데이터 파이프라인을 자동화**하여 운영 효율을 높였습니다.
+또한 ELK Stack으로 사용 로그를 수집·분석해 **이해도와 병목 구간을 데이터로 가시화**하고, 개인 사용자부터 팀 단위 운영까지 확장 가능한 형태로 설계되었습니다.
+</div>
 
 ---
 
-## 🎯 프로젝트 목표
 
-- 수업 개념 정리, 실습 가이드 등 수업 관련 질문에 신뢰도 높은 답변을 제공한다.
-- 학습일지와 수강 후기를 자동 수집·요약해 최신 지식베이스로 통합한다.
-- 수강생 참여도와 피드백을 기반으로 주간 보고서를 생성해 강사진과 공유한다.
-
----
 
 ## 👨‍👩‍👧 팀원 소개
 
@@ -19,87 +22,331 @@
 | <img src="https://avatars.githubusercontent.com/u/60088307?v=4?s=200"/> | <img src="https://avatars.githubusercontent.com/u/122732599?v=4"/> | <img src="https://avatars.githubusercontent.com/u/72748734?v=4?s=200"/> |
 |               [**손정원**](https://github.com/handgarden)               |            [**이동욱**](https://github.com/cuterrabbit)            |                 [**이승준**](https://github.com/HiLeeS)                 |
 
----
+## 📖 프로젝트 소개
 
-## 🧭 서비스 개요
+### 🧩 문제 인식: 지식은 쌓이는데, ‘필요한 순간’에 꺼내 쓰기 어렵다
 
-우리 FISA 엔지니어링반 챗봇은 교육팀의 커리큘럼 자료와 학습 기록을 RAG 기반 대화 경험에 결합해, 수업 질문 응답과 일정·후기 브리핑을 동시에 제공하는 플랫폼입니다. n8n 워크플로와 LLM을 결합해 강의 일정 조회부터 주간 질문 리포트 발행까지 한 번에 처리하도록 설계했습니다.
-
----
-
-## 🔧 시스템 구성
-
-### 1. 학습일지·후기 수집 파이프라인
-
-- 매주 월요일 09시에 트리거되어 수강생 학습일지와 후기 게시글을 자동으로 크롤링합니다.
-- Velog는 GraphQL API로, Tistory는 FireCrawl 노드로 수집해 포맷을 통일합니다.
-- OpenAI 임베딩으로 문서를 벡터화하고 Pinecone에 적재해 챗봇이 최신 학습 맥락과 정성 피드백을 참조합니다.
-
-  | 툴        | 역할                     | 비고          |
-  | --------- | ------------------------ | ------------- |
-  | Velog API | GraphQL로 문서 메타 조회 |               |
-  | FireCrawl | 정적 페이지 크롤링       | Tistory 대응  |
-  | Pinecone  | 학습일지 벡터 스토리지   | cosine metric |
-
-### 2. 강의자료·일정 수집 파이프라인
-
-- Notion에 게시된 강의 자료와 수업 일정 공지를 일간 스케줄러로 수집합니다.
-- FireCrawl과 GPT 노드를 연결해 이미지 중심 자료도 요약 텍스트로 변환합니다.
-- 학습일지와 동일한 Pinecone 인덱스를 사용해 자료와 일정, 후기 간 상호 참조가 가능하도록 구성했습니다.
-
-### 3. 대화형 챗봇 엔진
-
-- 사용자의 질문을 n8n HTTP Trigger로 수신하고, Retrieval QA 노드가 벡터 스토어에서 수업 자료·학습일지·후기 중 관련 문서를 조회합니다.
-- MongoDB Chat Memory로 대화 맥락을 보존해 연속 질문에도 정확도로 대응합니다.
-- Google Sheet 일정 정보를 조회해 주간 일정, 발표 계획, 과제 마감 등을 실시간 제공합니다.
-
-### 4. 주간 보고서 자동화
-
-- Google Sheet에 저장된 대화 로그와 일정 데이터를 주별로 집계합니다.
-- GPT 노드가 주요 Q&A와 이슈를 요약하고, n8n Google Docs 노드가 템플릿 문서를 갱신합니다.
-- 완성된 보고서는 Google Drive에 보관하고, Gmail 노드로 강사진에게 발송합니다.
+교육/업무 환경에서는 문서·공지·블로그·위키·이슈 트래커 등 **지식이 여러 채널에 분산**되고, 시간이 지나며 **맥락(버전·정책·환경)이 바뀌는** 일이 흔합니다.  
+그 결과 “알고 있었는데 지금 당장 못 찾겠다”가 반복되고, 운영 측면에서도 “무엇이 막히는지”를 정량적으로 보기 어렵습니다.
 
 ---
 
-## 🗂 데이터 저장 전략
-
-| 저장 방식    | 특징                         | 채택 여부 | 최종 판단 근거                      |
-| ------------ | ---------------------------- | --------- | ----------------------------------- |
-| Google Sheet | 접근성 높고 관리 용이        | 보조      | 운영 로그와 일정 관리 용도로 사용   |
-| MongoDB      | 정형/비정형 데이터 저장 가능 | 보조      | 대화 메모리 저장에 활용             |
-| VectorDB     | 유사도 기반 검색 최적화      | 핵심      | 학습일지·강의자료 RAG 인덱스로 사용 |
-
-VectorDB는 Pinecone을 사용하며, OpenAI 임베딩 모델과 동일한 Dimension으로 인덱스를 구성해 검색 정확도를 확보했습니다.
+#### 사용자(학습자·실무자) 관점의 Pain Point
+- **찾는 데 시간이 듦**: 예전에 봤던 명령어/설정/가이드를 다시 찾느라 맥이 끊김  
+- **자료가 흩어짐**: Notion·블로그·공지·PR/이슈·드라이브가 따로 놀아서 검색 효율이 낮음  
+- **최신성/정합성 불안**: 업데이트가 잦아 “이게 지금 기준 맞나?”를 매번 확인해야 함  
+- **일반 답변의 한계**: LLM 답이 우리 조직/프로젝트 규칙·도구·환경과 달라 적용 단계에서 혼란 발생
 
 ---
 
-## 📡 운영 워크플로
+#### 운영자(강사·팀 리드·운영진) 관점의 Pain Point
+- **막히는 지점이 안 보임**: 어떤 주제가 반복 질문인지, 어디서 많이 헤매는지 감으로만 판단  
+- **반복 대응 비용 증가**: 유사 질문이 계속 쌓이지만 표준 답변/근거 링크/대응 흐름이 정리돼 있지 않음  
+- **콘텐츠가 누적될수록 운영 부담↑**: 자료는 늘어나는데 활용 품질은 오히려 떨어짐  
+- **지표 부재**: 질문 유형·검색 성공률·참조 문서·활용 추이 같은 데이터가 없어 개선을 설계하기 어려움 📊
 
-1. 사용자가 n8n에 접속해 챗봇에 질문을 한다.
-2. n8n 워크플로가 질문을 파싱하고 Pinecone에서 관련 문서를 검색한다.
-3. LLM이 검색 결과와 일정 데이터를 결합해 답변을 생성한다.
-4. 응답은 사용자 채널로 전달되고, 로그와 통계는 Google Sheet와 Docs에 자동 반영된다.
+
 
 ---
+
+### 🎯 솔루션: 조직/과정 맞춤형 지식 AI 어시스턴트
+![n8n-workflow-process](./docs/readme/n8n-workflow-process.png)
+분산된 자료(Notion·블로그·문서·공지·이슈 등)를 **RAG 파이프라인**으로 연결하고, 사용자의 질의/활용 로그를 **n8n으로 자동화 수집·처리**하여 **답변 품질 + 운영 인사이트**를 동시에 제공합니다.
+
+---
+
+#### 사용자에게는: 필요한 순간에 “근거까지” 찾아주는 24/7 어시스턴트
+
+**✅ 맥락 기반 맞춤 답변**
+- “지난번에 쓴 Docker 명령어 뭐였지?” → 해당 자료/포스트/문서에서 근거를 찾아 **우리 기준**으로 답변
+- “이번 주 일정/마감은?” → 스케줄 DB·공지 데이터와 연동해 **최신 정보**로 안내
+- “Spring Boot 설정 다시 알려줘” → 과정/팀에서 실제 사용하는 구성과 예제를 기준으로 설명
+
+**✅ 검색·정리 비용 절감**x
+- 관련 문서/페이지 **자동 링크 제공**
+- 개인/팀 학습 기록(Velog/Tistory 등)도 함께 참고해 **현장감 있는 맥락** 유지
+- 범용 답변이 아니라, **내가 속한 환경에서 바로 적용 가능한 형태**로 정리
+
+---
+
+#### 운영자에게는: 데이터로 학습/업무 흐름을 개선하는 인사이트 대시보드
+
+**✅ 흐름과 병목의 가시화**
+- 질문/요청 유형 추이: 특정 주제 급증 → 보충 설명/가이드 업데이트 신호
+- 자주 막히는 구간(핫 토픽) 탐지 → 실습/문서/템플릿 보강 포인트 도출
+- 주제별 관심도·변화 추이: Java/Spring/Docker/AWS 등 카테고리별 트렌드 확인
+
+**✅ 자동화된 운영 루프**
+- n8n으로 크롤링·정제·저장·리포팅을 자동화하여 **반복 운영 작업 최소화**
+- 주간 요약 리포트(질문 유형/상위 주제/참조 자료/변화 추이) 자동 생성·전송
+- **ELK Stack 기반 실시간 대시보드**로 로그를 시각화해, 개선 효과를 빠르게 검증
+
+
+---
+
+## 🌟 주요 기능
+
+### 1. 📊 자동 크롤링 시스템
+![crawl](./docs/readme/crawl.png)
+#### 주간 크롤링 (매주 월요일 01:00)
+- 🔍 **Velog 검색**: "우리FISA 클라우드 엔지니어링" 키워드
+- 🔍 **Tistory 크롤링**: Firecrawl API 활용
+- 📅 **필터링**: 최근 1년 이내 게시물만 수집
+- 🤖 **임베딩 최적화**: GPT-4.1-mini로 학습 맥락 구조화
+- 💾 **저장**: Pinecone Vector DB (woorifisa-blogs)
+
+#### 일간 크롤링 (매일 자동 실행)
+- 📖 **Notion 강의 자료 크롤링**
+  - 커스텀 Notion Crawler (Node.js) 사용
+  - 이미 크롤링한 URL 제외 (중복 방지)
+- 💾 **저장**: Pinecone Vector DB (woorifisa-lectures)
+
+---
+
+### 2. 🤖 AI 챗봇 (RAG 기반)
+![ai](./docs/readme/ai-chatbot.png)
+**지능형 질문 응답 시스템**
+- **질문 유형 자동 분류**: 일정 질문 / 수업 내용 질문 / 일반 질문
+- **학습 카테고리 태깅**: Java, Spring, Docker, Kubernetes, Linux, Cloud, AWS, n8n, ELK
+- **다층 검색 전략**:
+  1. 📅 현재 날짜/시간 확인 (Redis MCP Tool)
+  2. 📝 학습 블로그 검색 (Velog/Tistory 크롤링 데이터)
+  3. 📊 수업 일정 조회 (MySQL)
+  4. 📚 강의 자료 검색 (Notion 크롤링 데이터)
+  5. 🌐 웹 검색 보완 (OpenAI Search Tool)
+
+**답변 구조**
+```
+1. 질문 유형: [일정 질문 / 수업 내용 질문 / 일반 질문]
+2. 답변: [맥락 기반 상세 답변]
+3. 학습 카테고리: [해당 카테고리]
+4. 일정: [MySQL 기반 스케줄 정보]
+5. 수업 자료: [Notion 강의 자료 링크]
+6. 블로그 자료: [Velog/Tistory 학습 후기 링크]
+```
+---
+
+### 3. 🎯 자동 퀴즈 생성 시스템
+![quiz](./docs/readme/quiz.png)
+**주간 학습 기반 퀴즈 자동 생성**
+- 📚 **데이터 수집**: 최근 20개 채팅 히스토리 분석
+- 🧠 **AI 요약**: GPT-4.1-mini로 핵심 주제 추출
+  - Core Topics (3개)
+  - Key Keywords (5-7개)
+  - Technical Summary (2문장)
+- 🎲 **퀴즈 구성**:
+  - Q1: 객관식 (4지선다) - 핵심 이론
+  - Q2: 주관식 - 구체적 도구/명령어/용어
+  - Q3: OX - 실전 시나리오
+
+**중복 방지 메커니즘**
+- Redis Chat Memory로 이전 퀴즈 히스토리 추적
+- 같은 주제라도 다른 시나리오/관점으로 출제
+- 시스템 프롬프트에 명시적 중복 방지 규칙 적용
+
+---
+
+### 4. 📧 주간 학습 리포트
+![email](./docs/readme/email.png)
+**자동 생성 및 전송 (매주)**
+- 📊 **3가지 시각화 그래프**:
+  1. 질문 유형 파이차트 (일정/수업/일반)
+  2. 학습 카테고리 막대그래프 (Java/Spring/Docker 등)
+  3. 일자별 질문 수 라인그래프
+- 📧 **Gmail 자동 발송**
+
+---
+
+### 5. 📊 ELK Stack 기반 실시간 데이터 시각화
+
+**Elasticsearch + Logstash + Kibana를 활용한 학습 분석 대시보드**
+
+#### 데이터 수집 파이프라인
+```
+n8n Chatbot → MySQL → Logstash → Elasticsearch → Kibana
+```
+
+#### Logstash 설정 (실시간 MySQL 데이터 수집)
+```ruby
+# logstash/pipeline/mysql-chat-histories.conf
+input {
+  jdbc {
+    jdbc_driver_library => "/usr/share/logstash/mysql-connector.jar"
+    jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+    jdbc_connection_string => "jdbc:mysql://n8n_mysql:3306/woorifisa"
+    jdbc_user => "root"
+    jdbc_password => "${MYSQL_ROOT_PASSWORD}"
+    schedule => "*/5 * * * *"  # 5분마다 실행
+    statement => "
+      SELECT 
+        id, question_type, learning_category, 
+        general_answer, created_at
+      FROM fisa_chat_histories
+      WHERE created_at > :sql_last_value
+      ORDER BY created_at ASC
+    "
+    use_column_value => true
+    tracking_column => "created_at"
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["n8n_elasticsearch:9200"]
+    index => "woorifisa-chat-histories-%{+YYYY.MM.dd}"
+    user => "elastic"
+    password => "${ELASTIC_PASSWORD}"
+  }
+}
+```
+
+#### Kibana 대시보드 구성 (`http://localhost:5601`)
+![ELK](./docs/readme/ELK_kibana.png)
+**1. 학습 카테고리 분석**
+- 📊 **파이차트**: 카테고리별 질문 비율 (Java/Spring/Docker/AWS/Kubernetes 등)
+- 📈 **시계열 그래프**: 일/주/월별 카테고리 트렌드
+- 🔥 **히트맵**: 시간대별 질문 집중도
+
+**2. 질문 유형 분석**
+- 📊 **도넛차트**: 일정/수업/일반 질문 비율
+- 📊 **세로 막대그래프**: 주차별 질문 유형 변화
+
+**3. 실시간 모니터링**
+- ⚡ **Metric 시각화**:
+  - 오늘 총 질문 수
+  - 이번 주 평균 응답 시간
+  - 가장 많이 검색된 키워드 (Top 10)
+- 📊 **타임라인**: 실시간 질문 스트림
+
+**4. 학습 성과 분석**
+- 📈 **라인차트**: 주차별 누적 질문 수 (학습 참여도 지표)
+- 📊 **영역 차트**: 카테고리별 학습 진행 상황
+- 🎯 **게이지 차트**: 주간 목표 달성률
+
+
+
+
+## 🏗 시스템 아키텍쳐
+![system](./docs/readme/system.png)
+#### 1. Custom Crawler & ETL Pipeline (Express + FireCrawl)
+
+- **Architecture**: Notion API의 Rate Limit 및 블록 렌더링 제약을 우회하기 위해 Headless Browser 기반의 커스텀 크롤러 구현.
+- **Function**: Notion, Tistory, Velog 등 이기종 플랫폼에 분산된 기술 문서의 DOM을 파싱하고, 마크다운 형태로 정규화(Normalization)하여 학습 데이터셋 구축.
+
+#### 2. RAG Engine (n8n + OpenAI + Pinecone)
+
+- **Vector Search**: Pinecone Vector DB를 활용하여 수강생 질문과 가장 유사도(Cosine Similarity)가 높은 커리큘럼 컨텍스트를 실시간 조회.
+
+#### 3. Quiz Generator
+
+- **Workflow**: 학습자의 누적 질의 키워드와 수집한 문서를 매핑하여 개인화된 퀴즈 문항 자동 생성 (Webhook Trigger).
+- **Data Persistence**: 퀴즈 수행 결과를 MySQL에 적재하여 학습 성취도 추적.
+
+#### 4. Analytics Dashboard (ELK Stack)
+
+- **Log Aggregation**: Logstash 파이프라인을 통해 MySQL의 질의/퀴즈 로그를 실시간 수집.
+- **Visualization**: Elasticsearch 인덱싱 및 Kibana 대시보드를 통해 '질문 빈도 히트맵', '이해도 추이', '취약 토픽 분석' 등 인사이트 시각화.
+
+#### 5. Automated Reporting Service
+
+- **Batch Processing**: 주간 단위 트리거를 통해 학습 로그 집계 및 QuickChart API 기반의 시각화 객체 생성.
+- **Delivery**: 수강생별 맞춤형 주간 리포트 이메일 자동 발송 시스템 구축.
+
+
 
 ## 🛠 기술 스택
 
-- n8n Docker: 워크플로 오케스트레이션
-- OpenAI GPT-4.1 & text-embedding-3-small: 답변 생성과 임베딩
-- Pinecone VectorDB, MongoDB Atlas, Google Workspace (Sheet, Docs, Drive, Gmail): LLM 연결 도구
-- FireCrawl : 크롤러
+| 구분          | 기술                                                                                                                                                                                                                                                           | 비고                            |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| **Backend**   | <img src="https://img.shields.io/badge/n8n-FF6584?logo=n8n&logoColor=white" /> <img src="https://img.shields.io/badge/Express-000000?logo=express&logoColor=white" />                                                                                          | 워크플로우 자동화 및 크롤링     |
+| **Frontend**  | <img src="https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white" />                                                                                                                                                                       | 채팅 및 퀴즈 인터페이스         |
+| **AI / LLM**  | <img src="https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white" />                                                                                                                                                                           | GPT / Embedding                 |
+| **Database**  | <img src="https://img.shields.io/badge/Pinecone-000000?logo=pinecone&logoColor=white" /> <img src="https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white" /> <img src="https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white" /> | 벡터 검색 / RDBMS / 캐시·메모리 |
+| **Analytics** | <img src="https://img.shields.io/badge/Elastic%20Stack-005571?logo=elastic&logoColor=white" />                                                                                                                                                                 | 로그 수집·검색·시각화           |
+| **DevOps**    | <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" />                                                                                                                                                                           | 컨테이너 배포                   |
+
+## 🔧 트러블 슈팅
+
+### 1. Data Persistence & Volume Mapping Strateg
+
+![볼륨이슈](./docs/readme/volumeissue.png)
+
+- **Issue**: 프로젝트명 변경으로 볼륨 2개 생성
+- **Analysis**
+- Docker Compose는 named volume을 `<프로젝트명>_<볼륨명>` 형태로 관리함.
+- 프로젝트 디렉토리명/compose project name이 중간에 바뀌면서
+  기존 볼륨과 **별개의 새 볼륨이 자동 생성**되어, 컨테이너가 새 볼륨을 붙이고 올라감.
+- **Solution**: 새로 생성된 볼륨 대신 **기존 볼륨을 재사용**하도록 조치
+  - (1) 기존 n8n 볼륨 백업: 
+  ```
+  docker run --rm \
+  -v <OLD_N8N_VOLUME>:/data \
+  -v $(pwd):/backup \
+  alpine sh -c "cd /data && tar czf /backup/n8n_volume_backup.tgz ."
+  ```
+  - (2) 새 n8n 볼륨에 복원:
+  ```
+  docker run --rm \
+  -v <OLD_N8N_VOLUME>:/data \
+  -v $(pwd):/backup \
+  alpine sh -c "cd /data && tar czf /backup/n8n_volume_backup.tgz ."
+  ```
+
+### 2. Virtualization Resource Scheduling Optimization
+
+![리소스이슈](./docs/readme/virtualbox-issue.png)
+
+- **Issue**: 리소스 증설(Scale-up) 후 오히려 응답 지연(Latency)이 증가하는 역설적 성능 저하 발생.
+- **Analysis**: 호스트 자원 대비 과도한 vCPU 할당으로 인한 **Co-Scheduling Overhead** 및 **CPU Ready Time** 급증 확인.
+- **Solution**: vCPU 할당량을 최소화하여 해결.
 
 ---
 
-## 📂 프로젝트 구조
-
-현재 리포지토리는 문서 위주로 정리되어 있으며, 서비스 운영에 맞춰 아래 구성을 확장하고 있습니다.
+## 📂 Directory Structure
 
 ```text
 .
-├── flows/               # n8n 워크플로 정의 (JSON)
-├── docs/                # 기획 및 운영 문서
-└── README.md            # 프로젝트 개요 및 진행 상황
+├── frontend/          # Next.js Client Application
+├── backend/           # n8n Workflows & Configuration
+├── crawler/           # Custom Scraper (Express, Puppeteer/FireCrawl)
+├── db/                # MySQL Schema & Init Scripts
+├── elk/               # Logstash Pipeline & ELK Config
+├── docker/            # Docker Compose & Environment Setup
+└── assets/            # Documentation Resources
+
 ```
+
+---
+
+## 📬 설치 및 실행
+
+**1. Clone Repository**
+
+```bash
+git clone https://github.com/your-repo/ai-learning-helper.git
+cd ai-learning-helper
+
+```
+
+**2. Setup Environment Configuration**
+
+```bash
+# Set Notion Target URL & API Keys
+echo "NOTION_URL={{TARGET_URL}}" > ./crawler/.env
+
+```
+
+**3. Build & Run Containers**
+
+```bash
+docker-compose up -d --build
+
+```
+
+**4. 서비스 주소**
+
+- **웹**: `http://localhost:4000`
+- **N8N**: `http://localhost:5678`
+- **Kibana**: `http://localhost:5601`
 
 ---

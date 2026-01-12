@@ -1,0 +1,2920 @@
+{
+  "name": "WooriFisa",
+  "nodes": [
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are an intelligent assistant acting as a teaching assistant (TA)\nfor the \"우리FISA 클라우드 엔지니어링\" course.\n\n────────────────────────────────\nRole & Response Style (MANDATORY)\n────────────────────────────────\n\nYour role:\n- Support learners by answering questions clearly and practically.\n- Explain concepts in a calm, professional, but approachable teaching-assistant tone.\n- Guide learners using course-aligned explanations rather than overly academic or vague answers.\n\nResponse style rules:\n- Always respond in Korean.\n- Always use 해요체.\n- Tone must resemble a university TA in their early-to-mid 20s:\n  - Calm, friendly, and supportive\n  - Clear and direct explanations\n  - Not casual slang, not overly formal\n- Be straightforward; do not speak vaguely.\n- Respect conventional and widely accepted practices.\n- Think with future learning continuity in mind.\n\n────────────────────────────────\nSystem Time Tool (HIGHEST PRIORITY)\n────────────────────────────────\n\nA tool is available that returns the current date and time in Korea (KST).\n\nRules:\n- If the user question contains any time- or date-related expression, you MUST use this tool FIRST.\n- Examples of triggers include: 오늘, 지금, 현재, 이번 주, 다음 주, 어제, 내일, 날짜, 요일, 몇 주차, 기준일, 시작일, 마감일\n- Relative expressions MUST be resolved using the returned Korean current date/time.\n\n────────────────────────────────\nData Sources (Priority Order)\n────────────────────────────────\n\nAlways follow this strict retrieval order for any question:\n\n1) System Time Tool (today’s date in KST)\n2) Blog vector store (Velog, Tistory)\n3) MySQL fisa_schedule table\n4) Lecture vector store (Notion URLs only)\n5) OpenAI Search Tool (supplementary, optional, for verification only)\n\n────────────────────────────────\nData Source Details\n────────────────────────────────\n\n1) MySQL: fisa_schedule table\n- Columns:\n  - schedule_date (DATE)\n  - main_schedule (TEXT)\n  - detail_schedule (TEXT)\n  - special_lecture (TEXT)\n  - exam (BOOLEAN)\n  - extra_schedule (TEXT)\n- Highest authority for schedule-related questions: 일정, 오늘, 다음주, 과제, 진도, 계획, 마감, 스케줄, 주차, n주차\n- Weekly ranges are derived from schedule_date, based on the official start date and System Time Tool.\n\n2) Blog vector store\n- Study journal posts written by learners\n- metadata.type = \"blog\"\n- URLs from Velog or Tistory\n- Primary source for learning content\n\n3) Lecture vector store\n- Official course lecture materials\n- metadata.type = \"lecture\"\n- URLs must be from Notion\n- Used to reinforce or formalize blog explanations\n\n4) OpenAI Search Tool (SUPPLEMENTARY)\n- Used only for refinement or verification of technical explanations\n- Must not override blog or lecture content\n- Must align with course scope\n\n────────────────────────────────\nQuestion Classification (MANDATORY)\n────────────────────────────────\n\nClassify every user question into one or more of:\n\n- \"일정 질문\"\n- \"수업 내용 질문\"\n- \"일반 질문\"\n\nRules:\n- 날짜·시간 표현 포함 → 일정 질문\n- 기술, 개념, 도구 → 수업 내용 질문\n- 과정 소개, 제도, 기타 → 일반 질문\n\n────────────────────────────────\nEnhanced Retrieval Strategy for \"수업 내용 질문\"\n────────────────────────────────\n\nStep 1. Blog-first Retrieval\n- Always search Blog vector store first\n- Priority:\n  1) Week reference (n주차) if present\n  2) Core technical keywords from the user question\n- Retrieve only metadata.type = \"blog\"\n\nStep 2. Keyword Extraction\n- Extract key technical terms from blog content:\n  - Technologies\n  - Core concepts\n  - Tools, commands, services\n- Use ONLY these keywords to search Lecture vector store\n\nStep 3. Lecture Retrieval\n- Search Lecture vector store using blog-derived keywords only\n- Only metadata.type = \"lecture\"\n- URLs must be from Notion\n\nStep 4. OpenAI Search Tool (OPTIONAL)\n- Only if blog + lecture content is:\n  - Insufficient\n  - Slightly outdated\n  - Lacking clarity\n- Purpose: confirm correctness, improve explanation\n- Must be clearly framed as “보충 설명” or “일반적인 기준”\n\nStep 5. Answer Composition\n- Core explanation: Blog content\n- Reinforce/validate: Lecture content\n- Optional refinement: OpenAI search\n- If conflict: Lecture > Blog > Search\n\n────────────────────────────────\nLearning Category (ONLY for 수업 내용 질문)\n────────────────────────────────\n\nAssign exactly one:\n- 자바\n- 스프링\n- n8n\n- ELK(elasticsearch, logstash, kibana)\n- 도커\n- 쿠버네티스\n- 리눅스\n- 클라우드\n- AWS\n\nIf NOT a learning question:\n- Category = \"ETC\"\n\n────────────────────────────────\nOutput Format (TEXT ONLY)\n────────────────────────────────\n\nAlways respond using plain text in the following order:\n\n1. 질문 유형\n2. 답변\n3. 학습 카테고리\n4. 일정 (MySQL 기반, 해당될 때만)\n5. 수업 자료 (Lectures)\n6. 블로그 자료 (Blogs)\n\nRules:\n- Never invent URLs\n- Lecture URLs: Notion only\n- Blog URLs: Velog or Tistory only\n- Explicitly state when data is missing\n\n────────────────────────────────\nGlobal Rules\n────────────────────────────────\n\n- Always use System Time Tool first if question contains any date/time expression\n- Blog search is the primary source for learning content\n- MySQL schedule data has the highest authority for 일정\n- Blog → Lecture → OpenAI Search is the strict order for learning explanations\n- Do NOT mention internal retrieval steps or decision logic in the final answer\n- Always follow the fixed order: 오늘 날짜 확인 → 블로그 검색 → 일정 확인 → 교안 확인\n\n### VARIATION & ANTI-REPETITION RULES (REQUIRED)\n\n- You MUST avoid generating questions that are identical or highly similar to previous quizzes stored in memory.\n- Even if the topic is the same, you MUST change:\n  - the question angle,\n  - the scenario,\n  - or the level of abstraction.\n- Do NOT reuse the same example, wording, or answer pattern.\n- Prefer:\n  - different concepts within the same topic, or\n  - different real-world scenarios for the same concept.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1368,
+        2868
+      ],
+      "id": "4cb22064-ee98-47a7-964a-764a9137977d",
+      "name": "Chatbot"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "edcd64db-8ece-412f-84ee-fdce959b7f39",
+              "leftValue": "={{ $json.pages.length }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1632,
+        2436
+      ],
+      "id": "428ce89a-558c-4e9b-affd-1c79c03367ac",
+      "name": "크롤링 결과 판단(Notion 교안)"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        1408
+      ],
+      "id": "b42f083e-8901-4dcc-b429-5350217f4b32",
+      "name": "주간 크롤러"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        2436
+      ],
+      "id": "6f11246a-5312-4a1d-8106-67a4a4f09e8c",
+      "name": "일간 크롤러"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.searchPosts.posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        1408
+      ],
+      "id": "a66cdb00-db3d-49db-9e54-ecb016e887e0",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "url": "=https://velog.io/@{{ $('1개씩').item.json.user.username }}/{{ $('1개씩').item.json.url_slug }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2528,
+        1088
+      ],
+      "id": "5c03f5ba-bab1-4f50-930d-d9a344b2742f",
+      "name": "상세정보 가져오기",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1856,
+        1408
+      ],
+      "id": "de1b359d-180b-4255-8b2c-266d5211b68c",
+      "name": "1개씩"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        1984
+      ],
+      "id": "e1b6f7c3-4a68-433f-a954-8bfae7210e58",
+      "name": "주간 크롤러1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  const text = item.json.data\n  .replace(/<script[\\s\\S]*?>[\\s\\S]*?<\\/script>/gi, '')\n  .replace(/<style[\\s\\S]*?>[\\s\\S]*?<\\/style>/gi, '')\n  .replace(/<[^>]*>/g, '')\n  .trim();\n  item.json.data = text;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2752,
+        1088
+      ],
+      "id": "d3c29d5e-33ca-4bc1-a2f1-49e7a7a9c251",
+      "name": "HTML 태그 제거"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        3912,
+        1384
+      ],
+      "id": "83d067e4-0c6c-4b0f-b6eb-1c8a462603c3",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "woorifisa-lectures",
+          "mode": "list",
+          "cachedResultName": "woorifisa-lectures"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        2528,
+        2312
+      ],
+      "id": "a8dd6032-d272-4d4e-90b9-daeae9421bcd",
+      "name": "교안 스토어",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8JRWuWhSq8WbHWLf",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        2664,
+        2536
+      ],
+      "id": "bb098329-95ca-4114-8164-7e65678f5204",
+      "name": "Default Data Loader1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "builtInTools": {
+          "webSearch": {
+            "searchContextSize": "low"
+          }
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        960,
+        3092
+      ],
+      "id": "8b3cb234-58a4-4941-a4ed-592231208b48",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        3784,
+        1384
+      ],
+      "id": "7e1df215-f1ab-473a-90cd-d2e801d6e99c",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2536,
+        2536
+      ],
+      "id": "bb2f8054-4e62-471e-8ff1-e1790c1c8fde",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2080,
+        2436
+      ],
+      "id": "6ba06fd8-9858-4765-bf35-735b6486397b",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "jsCode": "function generateEmbedding(){\n  const title = \"title: \" + $input.first().json.title;\n  const content = \"content: \" + $input.first().json.content;\n  const url = \"url: \" + $input.first().json.url;\n\n  return title + \"\\n\" + content + \"\\n\" + url + \"\\n\";\n}\n\nreturn [{\n  embedding: generateEmbedding()\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2304,
+        2312
+      ],
+      "id": "b652b079-69d8-4e71-8a7d-2fe586b13e1c",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1296,
+        3300
+      ],
+      "id": "af77eac3-f3b1-4126-a74d-a54bfc442229",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1584,
+        3300
+      ],
+      "id": "3ca67cce-6f03-4f9f-9242-0519b5314ba9",
+      "name": "Embeddings OpenAI3",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "You are a retrieval-based assistant.\n\nThe knowledge base is a unified vector store containing embedded documents.\nEach document includes a metadata field called \"type\" that identifies its source:\n\n- type: \"material\" → official lecture materials and course handouts\n- type: \"blog\" → study journal blog posts written during learning\n\nThe lecture materials are related to:\n- Java Spring\n- Docker\n- Cloud and infrastructure concepts\n\nEach document includes:\n- Content\n- A title\n- A brief summary\n- A reference (file name, document link, or URL)\n\nWhen a user asks a question, follow these rules strictly:\n\n1. Retrieve the most relevant documents from the vector store using semantic similarity.\n2. Use ONLY the retrieved documents to construct the answer.\n3. Do NOT use prior knowledge, general knowledge, or assumptions.\n4. Separate retrieved documents based on their \"type\" metadata:\n   - Documents with type \"material\" must be placed in the \"materials\" array.\n   - Documents with type \"blog\" must be placed in the \"blogs\" array.\n\nResponse rules:\n- The response MUST be returned strictly in JSON format.\n- Do NOT include any text outside the JSON response.\n- Do NOT invent or infer any information.\n- Use only the exact metadata provided in the retrieved documents.\n- If no relevant documents exist for a section, return an empty array for that section.\n\nThe JSON response must follow this exact structure:\n\n{\n  \"answer\": string,\n  \"materials\": [\n    {\n      \"title\": string,\n      \"summary\": string,\n      \"reference\": string\n    }\n  ],\n  \"blogs\": [\n    {\n      \"title\": string,\n      \"summary\": string,\n      \"link\": string\n    }\n  ]\n}\n\nAdditional constraints:\n- \"materials\" and \"blogs\" must always be arrays.\n- Include only documents that are directly relevant to the user's question.\n- If no documents are relevant at all, return an empty array for both \"materials\" and \"blogs\", and keep \"answer\" concise and based only on retrieved content (or empty if nothing is retrieved).\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "woorifisa-lectures",
+          "mode": "list",
+          "cachedResultName": "woorifisa-lectures"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        1216,
+        3092
+      ],
+      "id": "79ffcd78-5eb3-492f-aabb-08b1ac8a3889",
+      "name": "lecture store(read)",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8JRWuWhSq8WbHWLf",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "수업 교안자료\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "woorifisa-blogs",
+          "mode": "list",
+          "cachedResultName": "woorifisa-blogs"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        1504,
+        3092
+      ],
+      "id": "822b57e0-82ec-4d23-8a43-4f4e152084ca",
+      "name": "blog store(read)",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8JRWuWhSq8WbHWLf",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "edcd64db-8ece-412f-84ee-fdce959b7f39",
+              "leftValue": "={{ $input.all().isNotEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1632,
+        1984
+      ],
+      "id": "f56cd6cb-8d38-42de-b10f-0136bc5726c1",
+      "name": "0개 이상1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1856,
+        1984
+      ],
+      "id": "fff7e5de-c885-4d86-8f2b-a0c1d77f74c3",
+      "name": "1개씩1"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an assistant that transforms educational materials into a format **optimized for semantic embedding**.\n\nInput:\n- Lecture notes, blog learning logs, study materials, etc.\n- Technology scope: Java Spring, Docker, Cloud/Infrastructure\n- Input data may include title, content, url, source, and other metadata\n\nOutput Goals:\n- Do **not summarize**; preserve full learning structure and conceptual flow\n- Explicitly clarify learning topics and scope\n- Highlight step-by-step learning progression or sequence\n- Clearly explain relationships between key technologies, concepts, and tools\n- Convert lists or bullet points into coherent explanatory sentences\n- Emphasize curriculum order, learning progression, and conceptual grouping\n- Include original URLs for reference\n- Output format: JSON with a single field `\"embedding_text\"` containing **one continuous string**\n\nExample Output:\n\n{\n  \"embedding_text\": \"Java Spring learning materials are structured around the MVC pattern, explaining the roles and relationships of Model, View, and Controller. The Model handles data and business logic, the View provides the user interface, and the Controller manages requests and connects the Model and View. Additionally, DAO and DTO patterns optimize data access and transfer. The step-by-step learning sequence progresses from basic syntax → object-oriented programming → database integration → Spring MVC structure → hands-on exercises. URL: https://example.com\"\n}\n\nRules:\n1. Never summarize; maintain the full conceptual and learning flow\n2. Do not add information that is not present in the input\n3. Output must be JSON with only one field `\"embedding_text\"` as a single string\n4. Keep technical terms in English without translating\n"
+            },
+            {
+              "content": "=data: {{ $json.data }}\nurl: \"https://velog.io/@{{ $json.user.username }}/{{ $json.url_slug }}\""
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        3200,
+        1160
+      ],
+      "id": "b2f85381-30a4-4f64-946d-2b515652f804",
+      "name": "임베딩 문서 최적화",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an assistant that transforms educational materials into a format **optimized for semantic embedding**.\n\nInput:\n- Lecture notes, blog learning logs, study materials, etc.\n- Technology scope: Java Spring, Docker, Cloud/Infrastructure\n- Input data may include title, content, url, source, and other metadata\n\nOutput Goals:\n- Do **not summarize**; preserve full learning structure and conceptual flow\n- Explicitly clarify learning topics and scope\n- Highlight step-by-step learning progression or sequence\n- Clearly explain relationships between key technologies, concepts, and tools\n- Convert lists or bullet points into coherent explanatory sentences\n- Emphasize curriculum order, learning progression, and conceptual grouping\n- Include original URLs for reference\n- Output format: JSON with a single field `\"embedding_text\"` containing **one continuous string**\n\nExample Output:\n\n{\n  \"embedding_text\": \"Java Spring learning materials are structured around the MVC pattern, explaining the roles and relationships of Model, View, and Controller. The Model handles data and business logic, the View provides the user interface, and the Controller manages requests and connects the Model and View. Additionally, DAO and DTO patterns optimize data access and transfer. The step-by-step learning sequence progresses from basic syntax → object-oriented programming → database integration → Spring MVC structure → hands-on exercises. URL: https://example.com\"\n}\n\nRules:\n1. Never summarize; maintain the full conceptual and learning flow\n2. Do not add information that is not present in the input\n3. Output must be JSON with only one field `\"embedding_text\"` as a single string\n4. Keep technical terms in English without translating\n"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        2528,
+        1736
+      ],
+      "id": "960dcb85-c6ba-4ab5-a1dc-ab7a31eb5643",
+      "name": "임베딩 문서 최적화 2",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        3112,
+        1960
+      ],
+      "id": "09702656-146d-461f-a24c-44d7a648244f",
+      "name": "Embeddings OpenAI4",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        3240,
+        1960
+      ],
+      "id": "5d44bff6-fc72-480e-8881-3d6925b86fca",
+      "name": "Default Data Loader2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2445c0b2-9c27-4c74-89de-165fb7091d95",
+              "leftValue": "={{ $json.released_at }}",
+              "rightValue": "={{  $now }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "beforeOrEquals"
+              }
+            },
+            {
+              "id": "1ddaec4a-7fa8-401e-bf13-08dec78e2d03",
+              "leftValue": "={{ $json.released_at }}",
+              "rightValue": "={{ $now.minus(1, 'year' ) }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "afterOrEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1408,
+        1408
+      ],
+      "id": "8af0419d-80f3-4f05-852f-a654b48c03d6",
+      "name": "저번주 데이터만 필터(임시 1년)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "edd1ffb1-520a-4c2d-85aa-06bf229a92fe",
+              "leftValue": "={{ $json.published_date }}",
+              "rightValue": "={{ $now }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "beforeOrEquals"
+              }
+            },
+            {
+              "id": "2e9cb341-a99e-434c-a2b0-6a72fd7bfa9f",
+              "leftValue": "={{ $json.published_date }}",
+              "rightValue": "={{ $now.minus(1, 'year') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "afterOrEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1408,
+        1984
+      ],
+      "id": "5b67de36-51d8-4b68-a83c-4d1af03035df",
+      "name": "저번주 데이터만 필터(임시 1년)2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.tistory_posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        1984
+      ],
+      "id": "f7565357-edd0-4a04-9873-6d04678fbd45",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  embedding: JSON.parse($input.first().json.output[0].content[0].text).embedding_text\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2880,
+        1736
+      ],
+      "id": "4ddbed4b-b194-4cf4-9aa0-5666dce8efb6",
+      "name": "임베딩 추출"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  embedding: JSON.parse($input.first().json.output[0].content[0].text).embedding_text\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3552,
+        1160
+      ],
+      "id": "18a29bc1-9cb1-4264-8a60-6c56430adf96",
+      "name": "임베딩 추출2"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "woorifisa-blogs",
+          "mode": "list",
+          "cachedResultName": "woorifisa-blogs"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        3104,
+        1736
+      ],
+      "id": "d2621a0c-5f71-4583-a22e-949627bd8649",
+      "name": "블로그 store(저장)",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8JRWuWhSq8WbHWLf",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "woorifisa-blogs",
+          "mode": "list",
+          "cachedResultName": "woorifisa-blogs"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        3776,
+        1160
+      ],
+      "id": "c563180e-c197-4251-82f7-ab630cb73650",
+      "name": "블로그 스토어 저장2",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8JRWuWhSq8WbHWLf",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "scrape",
+        "requestOptions": {}
+      },
+      "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
+      "typeVersion": 1,
+      "position": [
+        960,
+        1984
+      ],
+      "id": "3d2738b1-eaf5-4df9-85d6-76bcb860df0d",
+      "name": "tistory 크롤러",
+      "credentials": {
+        "firecrawlApi": {
+          "id": "5QKfzx8wbWPws6B3",
+          "name": "Firecrawl account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://v2.velog.io/graphql",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "query SearchPosts($keyword: String!, $offset: Int, $username: String) {       searchPosts(keyword: $keyword, offset: $offset, username: $username) {         count         posts {           id           title           short_description           thumbnail           user {             id             username             profile {               id               thumbnail               display_name               __typename             }             __typename           }           url_slug           released_at           tags           is_private           comments_count           __typename         }         __typename       }     }"
+            },
+            {
+              "name": "variables",
+              "value": "{\"keyword\": \"우리fisa 클라우드 엔지니어링\"}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        960,
+        1408
+      ],
+      "id": "13b269c0-6195-4b73-845c-64a4b3c89386",
+      "name": "velog 크롤러",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 섹션별 분리\nfunction extract(label, text) {\n  const regex = new RegExp(`${label}[\\\\s\\\\S]*?(?=\\\\n\\\\d+\\\\. |$)`, \"g\");\n  const match = text.match(regex);\n  if (!match) return \"\";\n  return match[0].replace(label, \"\").trim();\n}\n\nfor (const item of $input.all()) {\n   // 섹션 추출\n  const raw = item.json.output;\n  const questionType = extract(\"1. 질문 유형\",raw);\n  const generalAnswer = extract(\"2. 답변\",raw);\n  const category = extract(\"3. 학습 카테고리\",raw);\n  const schedule = extract(\"4. 일정\",raw);\n  const lectures = extract(\"5. 수업 자료\",raw);\n  const blogs = extract(\"6. 블로그 자료\",raw);\n  \n  // 현재 시간\n  const now = new Date().toISOString();\n\n  return {\n      질문유형: questionType,\n      학습카테고리: category,\n      답변: generalAnswer,\n      일정: schedule,\n      수업자료: lectures,\n      블로그자료: blogs,\n      생성일시: now\n    }\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2128,
+        2868
+      ],
+      "id": "89001e4e-848d-4cd8-b0a0-e0b74ef5f199",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        1088,
+        3092
+      ],
+      "id": "3c429f9c-a084-41a9-bcce-dc4764933598",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "HN8PIYrmFU9GgbGF",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "fisa_chat_histories",
+          "mode": "list",
+          "cachedResultName": "fisa_chat_histories"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "question_type",
+              "value": "={{ $json['질문유형'] }}"
+            },
+            {
+              "column": "learning_category",
+              "value": "={{ $json['학습카테고리'] }}"
+            },
+            {
+              "column": "general_answer",
+              "value": "={{ $json['답변'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2352,
+        2868
+      ],
+      "id": "262cd7d9-c9a3-4d6f-a828-76dd8c4cb2a0",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "fisa_schedule",
+          "mode": "list",
+          "cachedResultName": "fisa_schedule"
+        },
+        "limit": 200,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySqlTool",
+      "typeVersion": 2.5,
+      "position": [
+        1792,
+        3092
+      ],
+      "id": "e33e4b45-3ad2-4a03-b857-1184e9c92515",
+      "name": "Select rows from a table in MySQL",
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "edcd64db-8ece-412f-84ee-fdce959b7f39",
+              "leftValue": "={{ $input.all().isNotEmpty() }}",
+              "rightValue": {},
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1632,
+        1408
+      ],
+      "id": "c8bef18c-f438-4d64-a214-9145931384c1",
+      "name": "0개 이상"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "fisa_crawl_histories",
+          "mode": "list",
+          "cachedResultName": "fisa_crawl_histories"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "url",
+              "value": "=https://velog.io/@{{ $json.user.username }}/{{ $json.url_slug }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2080,
+        1088
+      ],
+      "id": "c12794d8-29ee-484f-ab5b-bed786e2db31",
+      "name": "중복 데이터 확인",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "fisa_crawl_histories",
+          "mode": "list",
+          "cachedResultName": "fisa_crawl_histories"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "source_type",
+              "value": "blog"
+            },
+            {
+              "column": "url",
+              "value": "=https://velog.io/@{{ $('Merge').item.json.user.username }}/{{ $('Merge').item.json.url_slug }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        4128,
+        1284
+      ],
+      "id": "d9e60e69-0dbb-40c6-9913-1ed364705fba",
+      "name": "블로그 크롤링 정보 저장",
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2eb0f95a-4558-4687-b230-ab68e41c49ac",
+              "leftValue": "={{$json.values() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2304,
+        1088
+      ],
+      "id": "de7c0915-b100-4949-a369-7bfa142c374f",
+      "name": "중복이 아닌 경우"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "fisa_crawl_histories",
+          "mode": "list",
+          "cachedResultName": "fisa_crawl_histories"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "url",
+              "value": "=https://velog.io/@{{ $json.user.username }}/{{ $json.url_slug }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2080,
+        1736
+      ],
+      "id": "e1938412-2452-4fd6-baac-b26ea64f598f",
+      "name": "중복 데이터 확인1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cd9783cd-f5de-437f-93b7-2dc6a459eacc",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2304,
+        1736
+      ],
+      "id": "35bb1af4-533d-427b-b302-0921368eaf27",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "fisa_crawl_histories",
+          "mode": "list",
+          "cachedResultName": "fisa_crawl_histories"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "source_type",
+              "value": "blog"
+            },
+            {
+              "column": "url",
+              "value": "={{ $('0개 이상1').first().json.source_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        3456,
+        1860
+      ],
+      "id": "59c0d015-3d3f-4ba2-a8b9-700c469ae439",
+      "name": "블로그 크롤링 정보 저장1",
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "fisa_crawl_history",
+          "mode": "list",
+          "cachedResultName": "fisa_crawl_history"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "source_type",
+              "value": "notion"
+            },
+            {
+              "column": "url",
+              "value": "={{ $('Loop Over Items2').item.json.url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        2880,
+        2436
+      ],
+      "id": "2c49a45f-06e1-4258-80f4-c3054e2e5a3d",
+      "name": "Insert rows in a table1",
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://notion-crawler:3000/crawl",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "excludeUrls",
+              "value": "={{ $json.urls }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 100000000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1408,
+        2436
+      ],
+      "id": "f0e5bbfd-937c-45a0-b999-d017e54fd57d",
+      "name": "교안 노션 크롤러"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "pages",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        2436
+      ],
+      "id": "f93f1a37-3483-40d0-847e-4d38e852f864",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst urls = [];\nfor (const item of $input.all()) {\n  urls.push(item.json.url)\n}\n\nreturn {\n  urls\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        2436
+      ],
+      "id": "86a47e31-8c34-4d82-9908-526880827f48",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2976,
+        1160
+      ],
+      "id": "bb40f510-8704-4e23-938f-f6b5d37fa992",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "description": "You can call the MCP to retrieve the current date and time\nbased on the user's locale and timezone.\n\nYou MUST call the MCP in the following cases:\n- When the user mentions relative dates such as:\n  \"today\", \"tomorrow\", \"yesterday\", \"this week\", \"next week\", or similar expressions\n- When calculating schedules, deadlines, or plans that depend on the current date\n- When resolving expressions like \"n days later\", \"this month\", or \"next month\"\n\nThe MCP returns the current date and time adjusted to the user's locale.\nAlways use the MCP result as the source of truth for \"now\".\n\nDo NOT assume or hardcode the current date or time.\nDo NOT calculate relative dates without calling the MCP first.\n",
+        "jsCode": "return new Date().toLocaleString('ko-KR', {\n  timeZone: 'Asia/Seoul'\n})\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        1920,
+        3092
+      ],
+      "id": "29c4a82e-4ebf-4142-8d44-7ba831ddb68f",
+      "name": "현재날짜 반환"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "fisa_crawl_histories",
+          "mode": "list",
+          "cachedResultName": "fisa_crawl_histories"
+        },
+        "where": {
+          "values": [
+            {
+              "column": "source_type",
+              "value": "notion"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        960,
+        2436
+      ],
+      "id": "43c4c455-c5e8-4845-b175-6ff2b6f305dc",
+      "name": "크롤링url 조회",
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "availableInChat": true,
+        "agentName": "woorifisa",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        736,
+        2868
+      ],
+      "id": "95b5ab28-7c7a-4dd5-8142-6b2cd51e78b0",
+      "name": "When chat message received",
+      "webhookId": "00e2a95b-4cae-4860-9918-98452649e3bf"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "fisa_chat_histories",
+          "mode": "list",
+          "cachedResultName": "fisa_chat_histories"
+        },
+        "limit": 20,
+        "sort": {
+          "values": [
+            {
+              "column": "created_at",
+              "direction": "DESC"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        960,
+        3508
+      ],
+      "id": "b8b95a24-f65a-451f-a112-cd1c177c6125",
+      "name": "Select rows from a table1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function parseQuizJson(rawText) {\n  if (!rawText) {\n    throw new Error(\"입력 값이 비어 있습니다.\");\n  }\n\n  // 앞뒤 공백 및 줄바꿈 정리\n  const cleaned = rawText.trim();\n\n  let parsed;\n  try {\n    parsed = JSON.parse(cleaned);\n  } catch (e) {\n    throw new Error(\"JSON 파싱 실패: \" + e.message);\n  }\n\n  return parsed;\n}\n\n/* n8n Function 노드 */\nconst raw = $input.first().json.output;\n\n// output이 문자열일 경우\nconst quiz =\n  typeof raw === \"string\"\n    ? parseQuizJson(raw)\n    : raw;\n\nreturn [quiz];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3120,
+        3508
+      ],
+      "id": "7b95f4e3-02a7-4173-9216-cd7df5d7b148",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "fisa_quiz_questions",
+          "mode": "list",
+          "cachedResultName": "fisa_quiz_questions"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "question_id",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "column": "type",
+              "value": "={{ $json.type }}"
+            },
+            {
+              "column": "question",
+              "value": "={{ $json.question }}"
+            },
+            {
+              "column": "explanation",
+              "value": "={{ $json.explanation }}"
+            },
+            {
+              "column": "answer",
+              "value": "={{ $json.answer }}"
+            },
+            {
+              "column": "options",
+              "value": "={{ JSON.stringify($json.options) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        3792,
+        3412
+      ],
+      "id": "2e173f2e-6907-4555-8ae7-c5f9bae0dd48",
+      "name": "Insert rows in a table2",
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\n\nreturn $input.all() ? $input.all() : [];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        3508
+      ],
+      "id": "332157c7-e184-4792-8aa6-bb18f33aa689",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=### INPUT DATA:\n{{ $json.data.map(JSON.stringify) }}\n\n### TASK:\nAnalyze the input and output a structured technical summary.\n\n### GUIDELINES:\n1. TOPICS: Identify the 3 most discussed technical categories.\n2. KEYWORDS: Extract 5-7 specific technical terms or commands.\n3. CONTEXT: Summarize the main technical challenge students faced this week in 2 sentences.\n\n### OUTPUT FORMAT:\nCore_Topics: <topic1, topic2, topic3>\nKey_Keywords: <key1, key2, key3, key4, key5>\nTechnical_Summary: <Your 2-sentence summary here>\n\n### FILTER:\nImmediately discard any data related to \"schedules\", \"lunch\", \"links\", or \"personal talk\"."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        1632,
+        3508
+      ],
+      "id": "de74a02e-293d-4458-baca-0ab7e7fab0ce",
+      "name": "질문 요약",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "수업 교안자료\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "woorifisa-blogs",
+          "mode": "list",
+          "cachedResultName": "woorifisa-blogs"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        2464,
+        3524
+      ],
+      "id": "963b4ef3-80bc-4368-99f7-c2c6a4f1b770",
+      "name": "blog store(read)1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8JRWuWhSq8WbHWLf",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2544,
+        3732
+      ],
+      "id": "64128df7-515a-4387-920e-83b5e8d42b05",
+      "name": "Embeddings OpenAI6",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2832,
+        3732
+      ],
+      "id": "8ffa7518-3ced-4562-b0b6-b1b800e16d54",
+      "name": "Embeddings OpenAI5",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "You are a retrieval-based assistant.\n\nThe knowledge base is a unified vector store containing embedded documents.\nEach document includes a metadata field called \"type\" that identifies its source:\n\n- type: \"material\" → official lecture materials and course handouts\n- type: \"blog\" → study journal blog posts written during learning\n\nThe lecture materials are related to:\n- Java Spring\n- Docker\n- Cloud and infrastructure concepts\n\nEach document includes:\n- Content\n- A title\n- A brief summary\n- A reference (file name, document link, or URL)\n\nWhen a user asks a question, follow these rules strictly:\n\n1. Retrieve the most relevant documents from the vector store using semantic similarity.\n2. Use ONLY the retrieved documents to construct the answer.\n3. Do NOT use prior knowledge, general knowledge, or assumptions.\n4. Separate retrieved documents based on their \"type\" metadata:\n   - Documents with type \"material\" must be placed in the \"materials\" array.\n   - Documents with type \"blog\" must be placed in the \"blogs\" array.\n\nResponse rules:\n- The response MUST be returned strictly in JSON format.\n- Do NOT include any text outside the JSON response.\n- Do NOT invent or infer any information.\n- Use only the exact metadata provided in the retrieved documents.\n- If no relevant documents exist for a section, return an empty array for that section.\n\nThe JSON response must follow this exact structure:\n\n{\n  \"answer\": string,\n  \"materials\": [\n    {\n      \"title\": string,\n      \"summary\": string,\n      \"reference\": string\n    }\n  ],\n  \"blogs\": [\n    {\n      \"title\": string,\n      \"summary\": string,\n      \"link\": string\n    }\n  ]\n}\n\nAdditional constraints:\n- \"materials\" and \"blogs\" must always be arrays.\n- Include only documents that are directly relevant to the user's question.\n- If no documents are relevant at all, return an empty array for both \"materials\" and \"blogs\", and keep \"answer\" concise and based only on retrieved content (or empty if nothing is retrieved).\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "woorifisa-lectures",
+          "mode": "list",
+          "cachedResultName": "woorifisa-lectures"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        2752,
+        3524
+      ],
+      "id": "eeb5061b-f94e-490a-8080-bc7e1cb0d223",
+      "name": "lecture store(read)1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8JRWuWhSq8WbHWLf",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        2208,
+        3524
+      ],
+      "id": "208f62e7-81f7-443e-accf-62788e99d03f",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.data }}",
+        "options": {
+          "systemMessage": "You are a quiz generator for a technical Slack community.\n\n────────────────────────────────\nLANGUAGE & STYLE RULES (MANDATORY)\n────────────────────────────────\n- All quiz content (questions, options, hints, explanations) MUST be written in Korean.\n- Core technical terms (e.g., Docker, Kubernetes, JVM, AWS) MUST remain in English or include English in parentheses.\n- Use a polite, encouraging, and professional tone suitable for a Slack community.\n- Use emojis (🚀 💡 ✅) naturally and sparingly.\n\n────────────────────────────────\nQUIZ COMPOSITION RULES (MANDATORY)\n────────────────────────────────\nGenerate EXACTLY 3 questions:\n\n- Q1: Multiple Choice\n  - Focus on a core theoretical concept.\n  - Provide exactly 4 options.\n\n- Q2: Short Answer\n  - Focus on a specific tool, command, or technical term.\n  - Include a short hint in Korean if helpful.\n\n- Q3: OX (True / False)\n  - A realistic practical scenario or statement.\n  - The answer MUST be either \"O\" or \"X\".\n\n────────────────────────────────\nCONTEXT RULES\n────────────────────────────────\n- If no explicit topic or input data is provided:\n  - Assume recent weekly backend, infrastructure, or software engineering learning materials.\n- Do NOT ask the user for additional input.\n- Do NOT mention Vector Databases, embeddings, retrieval, or context sources.\n\n────────────────────────────────\nOUTPUT FORMAT (ABSOLUTE REQUIREMENT)\n────────────────────────────────\n- You MUST output ONLY valid JSON.\n- Do NOT include markdown, explanations, comments, or extra text.\n- Do NOT wrap the JSON in code fences.\n- The JSON structure MUST exactly match the schema below.\n- Field names, nesting, and data types MUST be preserved.\n\n────────────────────────────────\nREQUIRED JSON SCHEMA\n────────────────────────────────\n\n{\n  \"title\": \"이번 주 복습 퀴즈 (Weekly Review)\",\n  \"introduction\": \"안녕하세요! 이번 주에 학습한 주요 내용을 복습해 볼까요?\\n가볍게 퀴즈를 풀며 본인의 이해도를 체크해 보세요! 🔥\",\n  \"questions\": [\n    {\n      \"id\": \"Q1\",\n      \"type\": \"multiple_choice\",\n      \"question\": \"질문 내용\",\n      \"options\": [\n        \"선택지 1\",\n        \"선택지 2\",\n        \"선택지 3\",\n        \"선택지 4\"\n      ]\n    },\n    {\n      \"id\": \"Q2\",\n      \"type\": \"short_answer\",\n      \"question\": \"질문 내용\",\n      \"hint\": \"힌트 내용\"\n    },\n    {\n      \"id\": \"Q3\",\n      \"type\": \"ox_scenario\",\n      \"question\": \"질문 내용\"\n    }\n  ],\n  \"answers\": [\n    {\n      \"id\": \"Q1\",\n      \"answer\": \"정답 번호 (예: 1)\",\n      \"explanation\": \"한 줄 해설\"\n    },\n    {\n      \"id\": \"Q2\",\n      \"answer\": \"정답\",\n      \"explanation\": \"한 줄 해설\"\n    },\n    {\n      \"id\": \"Q3\",\n      \"answer\": \"O 또는 X\",\n      \"explanation\": \"한 줄 해설\"\n    }\n  ]\n}\n\n────────────────────────────────\nFINAL CONSTRAINT (VERY IMPORTANT)\n────────────────────────────────\n- The response MUST be a single valid JSON object.\n- Do NOT include any text outside the JSON.\n- Do NOT include markdown headings or emojis outside string values.\n\n- You MAY generate related or follow-up questions based on previously covered concepts.\n- However, you MUST NOT simply rephrase or slightly modify previous questions.\n- Related questions should:\n  - explore a different scenario,\n  - focus on a different use case,\n  - or test a deeper or more applied understanding.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        2368,
+        3300
+      ],
+      "id": "a05c9452-6bcd-4a25-875a-df73f043b29a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.data = $input.first().json.output[0].content[0].text;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        3508
+      ],
+      "id": "4a94622d-99f2-412a-87ac-d604b6419f9e",
+      "name": "Code in JavaScript5"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        3508
+      ],
+      "id": "7b31a6d9-420e-4fb2-a723-28979771ddca",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json.data) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        3568,
+        3604
+      ],
+      "id": "661c2676-e9b8-413f-bbbf-509f6493da88",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "path": "2ebcb802-e17e-41f4-93a0-8195bf6ad417",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        736,
+        3508
+      ],
+      "id": "c8bd19bd-e199-48b9-89c2-f94259eb1f41",
+      "name": "Webhook",
+      "webhookId": "2ebcb802-e17e-41f4-93a0-8195bf6ad417"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3344,
+        3604
+      ],
+      "id": "645081aa-bee9-4b46-80ff-14722839bd68",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\n\nif (!Array.isArray(input.questions)) {\n  throw new Error(\"questions 배열이 존재하지 않습니다.\");\n}\n\nif (!Array.isArray(input.answers)) {\n  throw new Error(\"answers 배열이 존재하지 않습니다.\");\n}\n\n// answers를 id 기준으로 맵핑\nconst answerMap = {};\nfor (const a of input.answers) {\n  answerMap[a.id] = {\n    answer: a.answer,\n    explanation: a.explanation\n  };\n}\n\n// questions에 answer 병합\nconst mergedQuestions = input.questions.map(q => ({\n  ...q,\n  answer: answerMap[q.id]?.answer ?? null,\n  explanation: answerMap[q.id]?.explanation ?? null\n}));\n\n// questions 배열만 아이템으로 반환\nreturn mergedQuestions.map(q => ({\n  json: q\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3344,
+        3412
+      ],
+      "id": "b0304f6a-6d49-4542-b5d4-20e884950f61",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3568,
+        3412
+      ],
+      "id": "1b0246ee-6476-40a1-9d5a-defe53d6b34a",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.output[0].id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        2336,
+        3524
+      ],
+      "id": "9e876db0-56f9-4605-8a02-51a41e17b5e5",
+      "name": "Redis Chat Memory1",
+      "credentials": {
+        "redis": {
+          "id": "HN8PIYrmFU9GgbGF",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        4156
+      ],
+      "id": "0775c01a-6240-4e3a-82b4-625f6f2b2520",
+      "name": "주간 트리거"
+    },
+    {
+      "parameters": {
+        "sendTo": "azs8017@naver.com",
+        "subject": "report",
+        "message": "3가지 그래프 형식",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2304,
+        3964
+      ],
+      "id": "ca3b445f-4e09-427e-9b5b-eeaab788bac7",
+      "name": "메일전송",
+      "webhookId": "6c1b84b3-b1e8-468c-96ff-df983c3cb997"
+    },
+    {
+      "parameters": {
+        "chartType": "pie",
+        "labelsMode": "array",
+        "labelsArray": "={{ $json.questions.flatMap(o => Object.keys(o)) }}",
+        "data": "={{ $json.questions.flatMap(o => Object.values(o)) }}",
+        "chartOptions": {},
+        "datasetOptions": {}
+      },
+      "type": "n8n-nodes-base.quickChart",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        3940
+      ],
+      "id": "536d3d35-bdbc-4d5e-b05c-824423964e81",
+      "name": "질문 분류 파이그래프"
+    },
+    {
+      "parameters": {
+        "labelsMode": "array",
+        "labelsArray": "={{ $json.learnings.flatMap(o => Object.keys(o)) }}",
+        "data": "={{ $json.learnings.flatMap(o => Object.values(o)) }}",
+        "chartOptions": {},
+        "datasetOptions": {}
+      },
+      "type": "n8n-nodes-base.quickChart",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        4132
+      ],
+      "id": "329b6d88-2409-41df-a9b8-96f5fab2c0e1",
+      "name": "학습 카테고리 막대그래프"
+    },
+    {
+      "parameters": {
+        "chartType": "line",
+        "labelsMode": "array",
+        "labelsArray": "={{ $json.dates.flatMap(o => Object.keys(o)) }}",
+        "data": "={{ $json.dates.flatMap(o => Object.values(o)) }}",
+        "chartOptions": {},
+        "datasetOptions": {}
+      },
+      "type": "n8n-nodes-base.quickChart",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        4324
+      ],
+      "id": "2aa6974d-09fb-410a-bfe7-012339906904",
+      "name": "일자별 질문 수 라인 그래프"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1632,
+        4116
+      ],
+      "id": "25a829d1-44ef-4458-86b7-adb223784293",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "folderId": "1v3XwiOE6KIj7BIQHYWX-4R2GoLlH9vNn",
+        "title": "주간 보고서"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1856,
+        4132
+      ],
+      "id": "3ea17602-2036-42cd-b068-8e2ffb2a5ec8",
+      "name": "보고서 생성"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{$node[\"보고서 생성\"].json.id}}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "=={{ $json.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2528,
+        4228
+      ],
+      "id": "fd200ded-4532-45eb-b2c8-78d0fa5affbc",
+      "name": "보고서 수정"
+    },
+    {
+      "parameters": {
+        "name": "={{$binary.data.fileName || ('chart_' + $itemIndex + '.png')}}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1v3XwiOE6KIj7BIQHYWX-4R2GoLlH9vNn",
+          "mode": "list",
+          "cachedResultName": "n8n drive",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1v3XwiOE6KIj7BIQHYWX-4R2GoLlH9vNn"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2304,
+        4156
+      ],
+      "id": "1722ba83-75fd-44e1-b41a-71b797f953bc",
+      "name": "Upload file"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst learningCategories = new Map();\nconst questionCategories = new Map();\nconst dates = new Map();\nfor (const item of $input.all()) {\n  const prevVal1= (learningCategories.get(item.json.학습카테고리) || 0) + 1;\n  const prevVal2 = (questionCategories.get(item.json.질문유형) || 0) + 1;\n  const date = new Date(item.json.생성일).toLocaleDateString('ko-KR');\n  const prevVal3 = (dates.get(date) || 0) + 1;\n  learningCategories.set(item.json.학습카테고리, prevVal1);\n  questionCategories.set(item.json.질문유형, prevVal2);\n  dates.set(date, prevVal3)\n}\n\nreturn {\n  questions: [...questionCategories].map(([k,v]) => ({\n    [k]:v\n  })),\n  learnings: [...learningCategories].map(([k,v]) => ({\n    [k]: v\n  })),\n  dates: [...dates].map(([k,v]) => ({\n    [k]: v\n  })),\n  data: $input.all()\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        4156
+      ],
+      "id": "fefe2614-1f41-45a5-9376-75209b1b8e56",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2080,
+        4132
+      ],
+      "id": "498f0c89-1e2a-4b1e-b377-ef08a4fb68f0",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        960,
+        4156
+      ],
+      "id": "6dbbca46-a6d1-43ab-97b0-57bfa08c14d0",
+      "name": "Select rows from a table"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Chatbot": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "크롤링 결과 판단(Notion 교안)": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "주간 크롤러": {
+      "main": [
+        [
+          {
+            "node": "velog 크롤러",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "일간 크롤러": {
+      "main": [
+        [
+          {
+            "node": "크롤링url 조회",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "저번주 데이터만 필터(임시 1년)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "상세정보 가져오기": {
+      "main": [
+        [
+          {
+            "node": "HTML 태그 제거",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "1개씩",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1개씩": {
+      "main": [
+        [],
+        [
+          {
+            "node": "중복 데이터 확인",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "주간 크롤러1": {
+      "main": [
+        [
+          {
+            "node": "tistory 크롤러",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML 태그 제거": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "블로그 스토어 저장2",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "교안 스토어": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "교안 스토어",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Chatbot",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "블로그 스토어 저장2",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "교안 스토어",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "교안 스토어",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI2": {
+      "ai_embedding": [
+        [
+          {
+            "node": "lecture store(read)",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI3": {
+      "ai_embedding": [
+        [
+          {
+            "node": "blog store(read)",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lecture store(read)": {
+      "ai_tool": [
+        [
+          {
+            "node": "Chatbot",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "blog store(read)": {
+      "ai_tool": [
+        [
+          {
+            "node": "Chatbot",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "0개 이상1": {
+      "main": [
+        [
+          {
+            "node": "1개씩1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1개씩1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "중복 데이터 확인1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "임베딩 문서 최적화": {
+      "main": [
+        [
+          {
+            "node": "임베딩 추출2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "임베딩 문서 최적화 2": {
+      "main": [
+        [
+          {
+            "node": "임베딩 추출",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI4": {
+      "ai_embedding": [
+        [
+          {
+            "node": "블로그 store(저장)",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader2": {
+      "ai_document": [
+        [
+          {
+            "node": "블로그 store(저장)",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "저번주 데이터만 필터(임시 1년)": {
+      "main": [
+        [
+          {
+            "node": "0개 이상",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "저번주 데이터만 필터(임시 1년)2": {
+      "main": [
+        [
+          {
+            "node": "0개 이상1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "저번주 데이터만 필터(임시 1년)2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "임베딩 추출": {
+      "main": [
+        [
+          {
+            "node": "블로그 store(저장)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "임베딩 추출2": {
+      "main": [
+        [
+          {
+            "node": "블로그 스토어 저장2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "블로그 store(저장)": {
+      "main": [
+        [
+          {
+            "node": "블로그 크롤링 정보 저장1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "블로그 스토어 저장2": {
+      "main": [
+        [
+          {
+            "node": "블로그 크롤링 정보 저장",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tistory 크롤러": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "velog 크롤러": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chatbot",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table in MySQL": {
+      "ai_tool": [
+        [
+          {
+            "node": "Chatbot",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "0개 이상": {
+      "main": [
+        [
+          {
+            "node": "1개씩",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "중복 데이터 확인": {
+      "main": [
+        [
+          {
+            "node": "중복이 아닌 경우",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "블로그 크롤링 정보 저장": {
+      "main": [
+        [
+          {
+            "node": "1개씩",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "중복이 아닌 경우": {
+      "main": [
+        [
+          {
+            "node": "상세정보 가져오기",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "1개씩",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "중복 데이터 확인1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "임베딩 문서 최적화 2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "1개씩1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "블로그 크롤링 정보 저장1": {
+      "main": [
+        [
+          {
+            "node": "1개씩1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "교안 노션 크롤러": {
+      "main": [
+        [
+          {
+            "node": "크롤링 결과 판단(Notion 교안)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "교안 노션 크롤러",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "임베딩 문서 최적화",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "현재날짜 반환": {
+      "ai_tool": [
+        [
+          {
+            "node": "Chatbot",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "크롤링url 조회": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Chatbot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "질문 요약": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "blog store(read)1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI6": {
+      "ai_embedding": [
+        [
+          {
+            "node": "blog store(read)1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lecture store(read)1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI5": {
+      "ai_embedding": [
+        [
+          {
+            "node": "lecture store(read)1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "질문 요약",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Insert rows in a table2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "주간 트리거": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "질문 분류 파이그래프": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "학습 카테고리 막대그래프": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "일자별 질문 수 라인 그래프": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "보고서 생성",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "보고서 생성": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "보고서 수정": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "보고서 수정",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "질문 분류 파이그래프",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "학습 카테고리 막대그래프",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "일자별 질문 수 라인 그래프",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "메일전송",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "34bf9514-ea4c-459a-add9-ececb5e471c0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a3417737af2031ff8ab51b039c477e238c317daecd09edf48b8c0f91b5c7f445"
+  },
+  "id": "xiQJaU3dvfw6pQ1mpfCNx",
+  "tags": []
+}
