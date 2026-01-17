@@ -19,10 +19,10 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=your_root_password
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=woorifisa
       - MYSQL_USER=fisa01
-      - MYSQL_PASSWORD=your_password
+      - MYSQL_PASSWORD=fisa01
     ports:
       - "3306:3306"
     volumes:
@@ -30,7 +30,7 @@ services:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.3
     restart: always
     environment:
       - discovery.type=single-node
@@ -43,7 +43,7 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/data
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.11.0
+    image: docker.elastic.co/kibana/kibana:8.19.3
     restart: always
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
