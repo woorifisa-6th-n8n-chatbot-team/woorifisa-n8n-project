@@ -1,5 +1,6 @@
 services:
   n8n:
+    container_name: n8n
     image: n8nio/n8n
     restart: always
     ports:
@@ -11,11 +12,11 @@ services:
       - NODE_ENV=production
       - WEBHOOK_URL=http://localhost:5678/
       - GENERIC_TIMEZONE=Asia/Seoul
-      - FORCE_FI
     volumes:
       - n8n_data:/home/node/.n8n
 
   mysql:
+    container_name: n8n_mysql
     image: mysql:8.0
     restart: always
     environment:
@@ -30,6 +31,7 @@ services:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   elasticsearch:
+    container_name: n8n_elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:8.19.3
     restart: always
     environment:
@@ -43,6 +45,7 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/data
 
   kibana:
+    container_name: n8n_kibana
     image: docker.elastic.co/kibana/kibana:8.19.3
     restart: always
     environment:
@@ -53,6 +56,7 @@ services:
       - elasticsearch
 
   logstash:
+    container_name: n8n_logstash
     build:
       context: ./logstash
       dockerfile: Dockerfile
@@ -70,8 +74,20 @@ services:
       - elasticsearch
       - mysql
 
+  redis:
+    container_name: n8n_redis
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis/users.acl:/etc/redis/users.acl
+    command: redis-server --appendonly yes --aclfile /etc/redis/users.acl
+
 volumes:
   n8n_data:
   mysql_data:
   elasticsearch_data:
   logstash_data:
+  redis_data:
