@@ -1,8 +1,8 @@
 -- 채팅 히스토리 테이블
 CREATE TABLE IF NOT EXISTS fisa_chat_histories (
     id INT AUTO_INCREMENT PRIMARY KEY COMMENT '고유 ID',
-    question_type VARCHAR(100) COMMENT '질문유형',
-    learning_category VARCHAR(100) COMMENT '학습카테고리',
+    question_type TEXT COMMENT '질문유형',
+    learning_category TEXT COMMENT '학습카테고리',
     general_answer TEXT COMMENT '일반답변',
     basic_knowledge_summary TEXT COMMENT '기본지식요약',
     schedule TEXT COMMENT '일정',
@@ -15,11 +15,11 @@ CREATE TABLE IF NOT EXISTS fisa_chat_histories (
 CREATE TABLE IF NOT EXISTS fisa_schedule (
     id INT AUTO_INCREMENT PRIMARY KEY,
     schedule_date DATE NOT NULL,
-    main_schedule VARCHAR(100),
-    detail_schedule VARCHAR(100),
-    special_lecture VARCHAR(100),
+    main_schedule TEXT,
+    detail_schedule TEXT,
+    special_lecture TEXT,
     exam BOOLEAN DEFAULT FALSE,
-    extra_schedule VARCHAR(100),
+    extra_schedule TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -63,3 +63,14 @@ VALUES
 ('2026-06-23','융합해커톤',NULL,NULL,FALSE,NULL),
 ('2026-06-24','취업특강',NULL,NULL,FALSE,NULL),
 ('2026-06-25','수료식',NULL,NULL,FALSE,NULL);
+
+-- 크롤링 이력 테이블
+CREATE TABLE IF NOT EXISTS fisa_crawl_history (
+    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '고유 ID',
+    source_type TEXT NOT NULL COMMENT '출처 타입 (notion, blog)',
+    url TEXT NOT NULL COMMENT '크롤링한 URL',
+    status TEXT COMMENT '크롤링 상태',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '크롤링 시간',
+    INDEX idx_source_type (source_type(50)),
+    INDEX idx_url (url(255))
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '크롤링 이력';
