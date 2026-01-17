@@ -37,6 +37,7 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - "9200:9200"
@@ -84,6 +85,15 @@ services:
       - redis_data:/data
       - ./redis/users.acl:/etc/redis/users.acl
     command: redis-server --appendonly yes --aclfile /etc/redis/users.acl
+
+  notion-crawler:
+    container_name: n8n_notion_crawler
+    build:
+      context: ./notion-crawler
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
 
 volumes:
   n8n_data:
