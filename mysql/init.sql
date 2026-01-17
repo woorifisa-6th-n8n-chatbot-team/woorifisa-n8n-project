@@ -3,8 +3,7 @@ CREATE TABLE IF NOT EXISTS fisa_chat_histories (
     id INT AUTO_INCREMENT PRIMARY KEY COMMENT '고유 ID',
     question_type TEXT COMMENT '질문유형',
     learning_category TEXT COMMENT '학습카테고리',
-    general_answer TEXT COMMENT '일반답변',
-    basic_knowledge_summary TEXT COMMENT '기본지식요약',
+    general_answer TEXT COMMENT '답변',
     schedule TEXT COMMENT '일정',
     course_material TEXT COMMENT '수업자료',
     blog_material TEXT COMMENT '블로그자료',
@@ -13,15 +12,15 @@ CREATE TABLE IF NOT EXISTS fisa_chat_histories (
 
 -- 스케줄 테이블
 CREATE TABLE IF NOT EXISTS fisa_schedule (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    schedule_date DATE NOT NULL,
-    main_schedule TEXT,
-    detail_schedule TEXT,
-    special_lecture TEXT,
-    exam BOOLEAN DEFAULT FALSE,
-    extra_schedule TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '고유 ID',
+    schedule_date DATE NOT NULL COMMENT '일정 날짜',
+    main_schedule TEXT COMMENT '주요 일정',
+    detail_schedule TEXT COMMENT '상세 일정',
+    special_lecture TEXT COMMENT '특별 강의',
+    exam BOOLEAN DEFAULT FALSE COMMENT '시험 여부',
+    extra_schedule TEXT COMMENT '추가 일정',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '생성일'
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '스케줄 정보';
 
 -- 스케줄 데이터 삽입
 INSERT INTO fisa_schedule
@@ -69,7 +68,6 @@ CREATE TABLE IF NOT EXISTS fisa_crawl_history (
     id INT AUTO_INCREMENT PRIMARY KEY COMMENT '고유 ID',
     source_type TEXT NOT NULL COMMENT '출처 타입 (notion, blog)',
     url TEXT NOT NULL COMMENT '크롤링한 URL',
-    status TEXT COMMENT '크롤링 상태',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '크롤링 시간',
     INDEX idx_source_type (source_type(50)),
     INDEX idx_url (url(255))
