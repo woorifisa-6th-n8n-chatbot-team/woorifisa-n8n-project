@@ -69,7 +69,7 @@ VALUES
 ('2026-06-25','수료식',NULL,NULL,FALSE,NULL);
 
 -- 크롤링 이력 테이블
-CREATE TABLE IF NOT EXISTS fisa_crawl_history (
+CREATE TABLE IF NOT EXISTS fisa_crawl_histories (
     id INT AUTO_INCREMENT PRIMARY KEY COMMENT '고유 ID',
     source_type TEXT NOT NULL COMMENT '출처 타입 (notion, blog)',
     url TEXT NOT NULL COMMENT '크롤링한 URL',
