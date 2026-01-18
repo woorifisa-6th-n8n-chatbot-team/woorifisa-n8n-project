@@ -10,8 +10,8 @@
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
-      "position": [-2528, 3264],
-      "id": "3343f905-9cae-42b5-aa47-d1e3a8c46bb1",
+      "position": [-720, 1792],
+      "id": "639098ae-be2f-4a04-8f6c-5fdabdc8d159",
       "name": "Chatbot"
     },
     {
@@ -41,8 +41,8 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [-2256, 2832],
-      "id": "a53de61b-54bb-4c51-8afa-60a2785a1576",
+      "position": [-448, 1360],
+      "id": "a17656d2-ac6c-4098-8f13-96337f680994",
       "name": "크롤링 결과 판단(Notion 교안)"
     },
     {
@@ -59,8 +59,8 @@
       },
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
-      "position": [-3152, 1792],
-      "id": "cbefc631-c935-496e-90b4-89bc7d81bb8d",
+      "position": [-1344, 320],
+      "id": "ca03acbd-c2ff-4d7f-8eba-c73214d7c919",
       "name": "주간 크롤러"
     },
     {
@@ -71,8 +71,8 @@
       },
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
-      "position": [-3152, 2832],
-      "id": "d664fd1f-31f4-46f2-a9e4-2f0f2a63895f",
+      "position": [-1344, 1360],
+      "id": "dfe46e0a-02f3-4e10-b387-bd5972c2b0e7",
       "name": "일간 크롤러"
     },
     {
@@ -82,8 +82,8 @@
       },
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [-2704, 1792],
-      "id": "8aca69ab-0768-4cbf-b231-ba1dde190cb0",
+      "position": [-896, 320],
+      "id": "a59eeea5-4481-4f18-a0a7-c19edc25be4f",
       "name": "Split Out"
     },
     {
@@ -93,8 +93,8 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-1360, 1472],
-      "id": "ecaf1d74-3c16-4a51-a117-00b385387442",
+      "position": [448, 0],
+      "id": "d912c583-3b43-4425-87aa-cc754a05e0a3",
       "name": "상세정보 가져오기",
       "onError": "continueErrorOutput"
     },
@@ -104,8 +104,8 @@
       },
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [-2032, 1792],
-      "id": "09467c30-fbf4-4863-9a05-2dfc06ae7e2d",
+      "position": [-224, 320],
+      "id": "57abbd58-3298-4b93-8d73-ac0bf9d0b0b5",
       "name": "1개씩"
     },
     {
@@ -122,8 +122,8 @@
       },
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
-      "position": [-3152, 2368],
-      "id": "27cddbed-f160-4fde-be28-21e3ca92a8bc",
+      "position": [-1344, 896],
+      "id": "a5f4b3a2-06fd-4063-879c-5b95bd53f444",
       "name": "주간 크롤러1"
     },
     {
@@ -132,8 +132,8 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-1136, 1472],
-      "id": "ce2f8d63-1f49-41a4-93be-1c6aef0133f7",
+      "position": [672, 0],
+      "id": "73f25a35-9fba-4bb9-b1df-6d66e9d53b67",
       "name": "HTML 태그 제거"
     },
     {
@@ -142,8 +142,8 @@
       },
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
-      "position": [32, 1776],
-      "id": "f00db74b-9714-46bb-89be-3bc823967eb3",
+      "position": [1840, 304],
+      "id": "b2054f95-00ed-41dc-8afb-582a64963f22",
       "name": "Default Data Loader"
     },
     {
@@ -152,8 +152,8 @@
       },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
-      "position": [-3152, 3440],
-      "id": "55f8a515-0c4a-43e2-94cd-8fa8ba4c0665",
+      "position": [-1344, 1968],
+      "id": "db12e594-e166-49c4-a2e8-7377a8a153a0",
       "name": "When chat message received",
       "webhookId": "6cb24967-894f-41cb-8bb3-457d418e5d63"
     },
@@ -170,9 +170,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [-1360, 2704],
-      "id": "fdf9af77-53b4-45fa-a15a-bb0c14315b41",
-      "name": "교안 스토어"
+      "position": [448, 1232],
+      "id": "a2a14709-baff-470c-82dd-c95dc9d29227",
+      "name": "교안 스토어",
+      "credentials": {
+        "pineconeApi": {
+          "id": "liPAvxokzuWwqssg",
+          "name": "PineconeApi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -180,8 +186,8 @@
       },
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
-      "position": [-1232, 2928],
-      "id": "cc79d582-cd68-4e37-98ec-a9b6e8ae6303",
+      "position": [576, 1456],
+      "id": "c3712c6f-860b-487b-9b2b-d671ef16104a",
       "name": "Default Data Loader1"
     },
     {
@@ -201,9 +207,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
-      "position": [-2928, 3488],
-      "id": "ca471a8c-b6ac-4019-8ee2-9292bac96d1a",
-      "name": "OpenAI Chat Model"
+      "position": [-1120, 2016],
+      "id": "63c97b93-0975-4510-b9b2-b5ed59513f74",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "UzZRdpR4SL1clSaD",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -213,9 +225,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [-112, 1776],
-      "id": "2874be72-bdcb-4eab-874e-b09202ea5751",
-      "name": "Embeddings OpenAI"
+      "position": [1696, 304],
+      "id": "e9bf7a46-bdfd-4bc4-b763-43aa33ab7f5b",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "UzZRdpR4SL1clSaD",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -225,9 +243,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [-1360, 2928],
-      "id": "996050fe-0c0b-494f-af98-968ef9c558b1",
-      "name": "Embeddings OpenAI1"
+      "position": [448, 1456],
+      "id": "edf61986-28d4-4cd6-afbe-2a39a298cd38",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "UzZRdpR4SL1clSaD",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -235,8 +259,8 @@
       },
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [-1808, 2832],
-      "id": "5319517d-e937-40de-b323-f469fae25e2e",
+      "position": [0, 1360],
+      "id": "0169caa9-cfb3-4815-a578-73a70aab1224",
       "name": "Loop Over Items2"
     },
     {
@@ -245,8 +269,8 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-1584, 2704],
-      "id": "651835b2-c66b-465c-b799-add255808027",
+      "position": [224, 1232],
+      "id": "bdf268e3-7852-495c-9f86-14b0d3437393",
       "name": "Code in JavaScript1"
     },
     {
@@ -257,9 +281,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [-2592, 3696],
-      "id": "949e7a7e-ac3f-4b22-98eb-c1cfa147ef96",
-      "name": "Embeddings OpenAI2"
+      "position": [-784, 2224],
+      "id": "f2ff0435-b139-44d8-8e8e-35498a19b543",
+      "name": "Embeddings OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "UzZRdpR4SL1clSaD",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -269,9 +299,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [-2304, 3696],
-      "id": "f7db4d24-f63e-4b45-9f44-a7d0d680e022",
-      "name": "Embeddings OpenAI3"
+      "position": [-496, 2224],
+      "id": "5c514472-39c5-4636-930d-ebd95d29c120",
+      "name": "Embeddings OpenAI3",
+      "credentials": {
+        "openAiApi": {
+          "id": "UzZRdpR4SL1clSaD",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -288,9 +324,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [-2672, 3488],
-      "id": "6ea9d4c5-a13f-4e0d-8d4b-5c5168bc5b41",
-      "name": "lecture store(read)"
+      "position": [-864, 2016],
+      "id": "2940129e-0701-4d66-9831-fda3bbc0fb72",
+      "name": "lecture store(read)",
+      "credentials": {
+        "pineconeApi": {
+          "id": "liPAvxokzuWwqssg",
+          "name": "PineconeApi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -306,9 +348,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [-2384, 3488],
-      "id": "ddc96461-b0de-4629-b6fe-38c864242597",
-      "name": "blog store(read)"
+      "position": [-576, 2016],
+      "id": "2f1fca2b-dfdc-47a1-bc35-ad5e5868a7d5",
+      "name": "blog store(read)",
+      "credentials": {
+        "pineconeApi": {
+          "id": "liPAvxokzuWwqssg",
+          "name": "PineconeApi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -337,8 +385,8 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [-2256, 2368],
-      "id": "5c57f2ad-d329-412f-9dfc-347224a4a221",
+      "position": [-448, 896],
+      "id": "338acbf2-bff4-4737-a96c-b86ecf49c9b7",
       "name": "0개 이상1"
     },
     {
@@ -347,8 +395,8 @@
       },
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [-2032, 2368],
-      "id": "e126f9a1-bd61-450b-9d44-2cce85b1a600",
+      "position": [-224, 896],
+      "id": "6443a2a0-e2df-44de-ac83-cc0e57be28e8",
       "name": "1개씩1"
     },
     {
@@ -375,9 +423,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
-      "position": [-688, 1552],
-      "id": "079fc229-90c9-4191-8cc0-ec0ca403a933",
-      "name": "임베딩 문서 최적화"
+      "position": [1120, 80],
+      "id": "04047aa8-7997-454f-8044-8ab3b82762b4",
+      "name": "임베딩 문서 최적화",
+      "credentials": {
+        "openAiApi": {
+          "id": "UzZRdpR4SL1clSaD",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -400,9 +454,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
-      "position": [-1360, 2128],
-      "id": "4d8816d0-b0e8-4241-961d-cabcf708b37b",
-      "name": "임베딩 문서 최적화 2"
+      "position": [448, 656],
+      "id": "0f536ca7-3c7d-4682-9247-4f61941d0970",
+      "name": "임베딩 문서 최적화 2",
+      "credentials": {
+        "openAiApi": {
+          "id": "UzZRdpR4SL1clSaD",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -412,9 +472,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [-784, 2352],
-      "id": "627f405d-eb40-4402-a878-2566364d74a3",
-      "name": "Embeddings OpenAI4"
+      "position": [1024, 880],
+      "id": "ec0c2380-3aee-4827-9720-41c9b17516d0",
+      "name": "Embeddings OpenAI4",
+      "credentials": {
+        "openAiApi": {
+          "id": "UzZRdpR4SL1clSaD",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -422,8 +488,8 @@
       },
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
-      "position": [-656, 2352],
-      "id": "ec145ee7-458e-4620-ba22-34a47970e2fb",
+      "position": [1152, 880],
+      "id": "c9f4cb87-f90b-4bb1-b882-2dcb5ea17a82",
       "name": "Default Data Loader2"
     },
     {
@@ -461,8 +527,8 @@
       },
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
-      "position": [-2480, 1792],
-      "id": "396d1edb-bab2-43c4-ad0e-683579770bf3",
+      "position": [-672, 320],
+      "id": "03c0d742-345e-474c-9907-a41ef63aae28",
       "name": "저번주 데이터만 필터(임시 1년)"
     },
     {
@@ -500,8 +566,8 @@
       },
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
-      "position": [-2480, 2368],
-      "id": "43643bdc-d0bb-4a10-b13b-febf897ba45b",
+      "position": [-672, 896],
+      "id": "0cc5424e-674d-4690-9e64-b0f195ec1ba6",
       "name": "저번주 데이터만 필터(임시 1년)2"
     },
     {
@@ -511,8 +577,8 @@
       },
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [-2704, 2368],
-      "id": "41989dc6-afd8-414b-94d1-069527d31a37",
+      "position": [-896, 896],
+      "id": "34a68d45-6476-4580-bb25-18971263901c",
       "name": "Split Out1"
     },
     {
@@ -521,8 +587,8 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-1008, 2128],
-      "id": "5a559568-9da9-44a0-867d-45e071c65d06",
+      "position": [800, 656],
+      "id": "12c95daf-fde8-4535-9c77-8e2bc3c872de",
       "name": "임베딩 추출"
     },
     {
@@ -531,8 +597,8 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-336, 1552],
-      "id": "71a19c4d-2659-4191-bb88-8f79c6996e96",
+      "position": [1472, 80],
+      "id": "55771fb2-3c3f-4f8e-b79b-720524044bc4",
       "name": "임베딩 추출2"
     },
     {
@@ -548,9 +614,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [-784, 2128],
-      "id": "40debc6f-d110-4dd7-9a8f-54692bba0f8b",
-      "name": "블로그 store(저장)"
+      "position": [1024, 656],
+      "id": "66625cdc-fdf3-4c9a-b605-08c9cedc9d39",
+      "name": "블로그 store(저장)",
+      "credentials": {
+        "pineconeApi": {
+          "id": "liPAvxokzuWwqssg",
+          "name": "PineconeApi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -565,25 +637,32 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [-112, 1552],
-      "id": "683c392f-51b5-4862-8858-b64a35139ac2",
-      "name": "블로그 스토어 저장2"
+      "position": [1696, 80],
+      "id": "0057f4f0-91e6-4550-8779-60b37bbff889",
+      "name": "블로그 스토어 저장2",
+      "credentials": {
+        "pineconeApi": {
+          "id": "liPAvxokzuWwqssg",
+          "name": "PineconeApi account"
+        }
+      }
     },
     {
       "parameters": {
-        "resource": "Agent",
-        "operation": "agent",
-        "prompt": "Search Instructions:\n\n1. Perform a web search using Google.\n2. Set the search region to South Korea (KR).\n3. Use the following search query:\n   \"우리FISA 클라우드 엔지니어링 site:tistory.com\"\n\nTarget Platform Rules:\n\n- Only include blog posts hosted on Tistory subdomains.\n- Valid URLs must match the pattern:\n  https://*.tistory.com/*\n- The root domain https://www.tistory.com itself is NOT a valid blog post source.\n\nSelection Rules:\n\n- Select up to 10 blog posts.\n- Sort results by published date, newest first.\n- There is no restriction on the publication date range.\n\nExclusion Rules:\n\n- Exclude the following:\n  - https://www.tistory.com/*\n  - Non-blog pages\n  - Category, tag, archive, or search result pages\n  - Index or listing pages\n  - Duplicate posts (deduplicate by canonical URL)\n\nCrawling Rules:\n\n- Each selected URL must represent a single, individual blog post.\n- Crawl each blog post page individually.\n\nContent Extraction Rules (per blog post):\n\nExtract the following fields:\n\n- title:\n  - The blog post title as displayed on the page\n\n- body_text:\n  - Extract the full readable article text only\n  - Exclude advertisements, navigation UI, sidebars, headers, footers, and comments\n  - Preserve the original text order\n\n- tags:\n  - List of tags associated with the post, if available\n\n- source_url:\n  - The original canonical URL of the blog post\n\n- published_date:\n  - The publication date as displayed on the page",
-        "schemaType": "manual",
-        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tistory_posts\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"required\": [\n          \"title\",\n          \"source_url\",\n          \"published_date\",\n          \"body_text\",\n          \"tags\"\n        ],\n        \"properties\": {\n          \"title\": {\n            \"type\": \"string\"\n          },\n          \"source_url\": {\n            \"type\": \"string\"\n          },\n          \"published_date\": {\n            \"type\": \"string\",\n            \"description\": \"Post publication date as shown on the original Tistory page (e.g. 2024-03-12)\"\n          },\n          \"body_text\": {\n            \"type\": \"string\",\n            \"description\": \"Full body text of the post. The publication date should also be included at the top of this text.\"\n          },\n          \"tags\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"string\"\n            }\n          }\n        },\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\"tistory_posts\"],\n  \"additionalProperties\": false\n}\n",
-        "maxWaitTime": 600,
+        "operation": "scrape",
         "requestOptions": {}
       },
       "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
       "typeVersion": 1,
-      "position": [-2928, 2368],
-      "id": "67e815b0-57cd-4646-abb3-71beffc00210",
-      "name": "tistory 크롤러"
+      "position": [-1120, 896],
+      "id": "e6a7a6f1-8100-45e7-8132-24193b071c77",
+      "name": "tistory 크롤러",
+      "credentials": {
+        "firecrawlApi": {
+          "id": "zEoiHdysjwKutTdl",
+          "name": "Firecrawl account"
+        }
+      }
     },
     {
       "parameters": {
@@ -615,8 +694,8 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-2928, 1792],
-      "id": "718ecf4f-43ec-45f5-b2f5-c1def24df379",
+      "position": [-1120, 320],
+      "id": "929ecf69-2c63-4ae6-8d34-4f2550c2bfc2",
       "name": "velog 크롤러",
       "onError": "continueErrorOutput"
     },
@@ -626,8 +705,8 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-1760, 3264],
-      "id": "0a2ad608-af11-48f7-82dc-0b0f8415f341",
+      "position": [48, 1792],
+      "id": "57cde3a6-1521-4873-a07d-5cbd4f47cf45",
       "name": "Code in JavaScript"
     },
     {
@@ -638,17 +717,23 @@
       },
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
-      "position": [-1536, 3440],
-      "id": "a91ea7c6-4db0-4e60-8f56-9adfcb5ec031",
+      "position": [272, 1968],
+      "id": "9e1d2394-5548-4514-9313-6c8273053963",
       "name": "Merge1"
     },
     {
       "parameters": {},
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
-      "position": [-2800, 3488],
-      "id": "779c20ed-be6d-42c3-b72f-2624e89672eb",
-      "name": "Redis Chat Memory"
+      "position": [-992, 2016],
+      "id": "f1f8da8c-27bd-4acc-995a-e7f43586b442",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "qKd1lvP0f6TAaw71",
+          "name": "Redis account"
+        }
+      }
     },
     {
       "parameters": {
@@ -671,7 +756,7 @@
             },
             {
               "column": "general_answer",
-              "value": "={{ $json['일반답변'] }}"
+              "value": "={{ $json['답변'] }}"
             }
           ]
         },
@@ -679,9 +764,15 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [-1312, 3440],
-      "id": "9a0c7c43-bfe6-4c50-8042-582336abf751",
-      "name": "Insert rows in a table"
+      "position": [496, 1968],
+      "id": "23fdca55-af19-4890-a886-ed3796110dca",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "mySql": {
+          "id": "OJtNhMocRmaFEQ1u",
+          "name": "MySQL account"
+        }
+      }
     },
     {
       "parameters": {
@@ -697,9 +788,15 @@
       },
       "type": "n8n-nodes-base.mySqlTool",
       "typeVersion": 2.5,
-      "position": [-2096, 3488],
-      "id": "0aa821a6-0d4b-4ce5-99c0-90e2e34d6503",
-      "name": "Select rows from a table in MySQL"
+      "position": [-288, 2016],
+      "id": "100f1e9f-13a9-4334-b04c-7958510445e7",
+      "name": "Select rows from a table in MySQL",
+      "credentials": {
+        "mySql": {
+          "id": "OJtNhMocRmaFEQ1u",
+          "name": "MySQL account"
+        }
+      }
     },
     {
       "parameters": {
@@ -728,8 +825,8 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [-2256, 1792],
-      "id": "644d9d98-b3b6-4050-815f-57f2f68793cc",
+      "position": [-448, 320],
+      "id": "636a56c8-da49-4904-8f54-1b42fcc21126",
       "name": "0개 이상"
     },
     {
@@ -737,9 +834,9 @@
         "operation": "select",
         "table": {
           "__rl": true,
-          "value": "fisa_crawl_history",
+          "value": "fisa_crawl_histories",
           "mode": "list",
-          "cachedResultName": "fisa_crawl_history"
+          "cachedResultName": "fisa_crawl_histories"
         },
         "where": {
           "values": [
@@ -753,18 +850,24 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [-1808, 1472],
-      "id": "b541670a-03e1-4dea-92d1-77635808a82e",
+      "position": [0, 0],
+      "id": "57241df9-9ac0-48c5-a33e-1217a08aa8e9",
       "name": "중복 데이터 확인",
-      "alwaysOutputData": true
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "OJtNhMocRmaFEQ1u",
+          "name": "MySQL account"
+        }
+      }
     },
     {
       "parameters": {
         "table": {
           "__rl": true,
-          "value": "fisa_crawl_history",
+          "value": "fisa_crawl_histories",
           "mode": "list",
-          "cachedResultName": "fisa_crawl_history"
+          "cachedResultName": "fisa_crawl_histories"
         },
         "dataMode": "defineBelow",
         "valuesToSend": {
@@ -783,9 +886,15 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [240, 1680],
-      "id": "8cea9c5f-a0f0-42b4-8556-b544d4f22fa7",
-      "name": "블로그 크롤링 정보 저장"
+      "position": [2048, 208],
+      "id": "040dbb06-8baa-4652-8396-47e621ed6df9",
+      "name": "블로그 크롤링 정보 저장",
+      "credentials": {
+        "mySql": {
+          "id": "OJtNhMocRmaFEQ1u",
+          "name": "MySQL account"
+        }
+      }
     },
     {
       "parameters": {
@@ -814,8 +923,8 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [-1584, 1472],
-      "id": "90ee736d-351d-4bf9-9acd-8c21750dcd77",
+      "position": [224, 0],
+      "id": "859243ff-c0a0-45e5-8283-d35409ac92bf",
       "name": "중복이 아닌 경우"
     },
     {
@@ -823,9 +932,9 @@
         "operation": "select",
         "table": {
           "__rl": true,
-          "value": "fisa_crawl_history",
+          "value": "fisa_crawl_histories",
           "mode": "list",
-          "cachedResultName": "fisa_crawl_history"
+          "cachedResultName": "fisa_crawl_histories"
         },
         "where": {
           "values": [
@@ -839,10 +948,16 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [-1808, 2128],
-      "id": "66ea964d-f91c-42c0-b284-8538e96913c0",
+      "position": [0, 656],
+      "id": "24ec6d42-5924-4cb8-814a-0abd4b7f6e63",
       "name": "중복 데이터 확인1",
-      "alwaysOutputData": true
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "OJtNhMocRmaFEQ1u",
+          "name": "MySQL account"
+        }
+      }
     },
     {
       "parameters": {
@@ -871,17 +986,17 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [-1584, 2128],
-      "id": "b85b4661-41c6-48e6-aab7-c43df53a7994",
+      "position": [224, 656],
+      "id": "66d00f66-b5c3-440a-84b3-ab2c330b325f",
       "name": "If"
     },
     {
       "parameters": {
         "table": {
           "__rl": true,
-          "value": "fisa_crawl_history",
+          "value": "fisa_crawl_histories",
           "mode": "list",
-          "cachedResultName": "fisa_crawl_history"
+          "cachedResultName": "fisa_crawl_histories"
         },
         "dataMode": "defineBelow",
         "valuesToSend": {
@@ -900,9 +1015,15 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [-432, 2256],
-      "id": "90c4044f-d07c-4f2b-982b-1b8229c611ff",
-      "name": "블로그 크롤링 정보 저장1"
+      "position": [1376, 784],
+      "id": "360057f7-d1f3-4fe5-96fc-ddb552eee773",
+      "name": "블로그 크롤링 정보 저장1",
+      "credentials": {
+        "mySql": {
+          "id": "OJtNhMocRmaFEQ1u",
+          "name": "MySQL account"
+        }
+      }
     },
     {
       "parameters": {
@@ -929,9 +1050,15 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [-1008, 2832],
-      "id": "233ea45b-8ef1-4356-bee4-484bb46d951e",
-      "name": "Insert rows in a table1"
+      "position": [800, 1360],
+      "id": "760adb2b-2958-44ba-9f7d-319de8e3bb51",
+      "name": "Insert rows in a table1",
+      "credentials": {
+        "mySql": {
+          "id": "OJtNhMocRmaFEQ1u",
+          "name": "MySQL account"
+        }
+      }
     },
     {
       "parameters": {
@@ -952,18 +1079,62 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-2480, 2832],
-      "id": "6b3a734b-33cf-4e29-ae3a-22ac6281aacd",
+      "position": [-672, 1360],
+      "id": "fd798d09-fbf2-40bb-a28b-318e822f777c",
       "name": "교안 노션 크롤러"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "pages",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [-224, 1360],
+      "id": "344188cb-c829-4128-b8fd-f8880ee30fb5",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst urls = [];\nfor (const item of $input.all()) {\n  urls.push(item.json.url)\n}\n\nreturn {\n  urls\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-896, 1360],
+      "id": "be0f09ee-71ff-46ec-a19e-46cb0accf696",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [896, 80],
+      "id": "77ebcfaa-5a99-47f0-911a-aadc2efe79b3",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "description": "You can call the MCP to retrieve the current date and time\nbased on the user's locale and timezone.\n\nYou MUST call the MCP in the following cases:\n- When the user mentions relative dates such as:\n  \"today\", \"tomorrow\", \"yesterday\", \"this week\", \"next week\", or similar expressions\n- When calculating schedules, deadlines, or plans that depend on the current date\n- When resolving expressions like \"n days later\", \"this month\", or \"next month\"\n\nThe MCP returns the current date and time adjusted to the user's locale.\nAlways use the MCP result as the source of truth for \"now\".\n\nDo NOT assume or hardcode the current date or time.\nDo NOT calculate relative dates without calling the MCP first.\n",
+        "jsCode": "return new Date().toLocaleString('ko-KR', {\n  timeZone: 'Asia/Seoul'\n})\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [-160, 2016],
+      "id": "11e34838-d327-4143-a6c1-f24e5509a9d4",
+      "name": "현재날짜 반환"
     },
     {
       "parameters": {
         "operation": "select",
         "table": {
           "__rl": true,
-          "value": "fisa_crawl_history",
+          "value": "fisa_crawl_histories",
           "mode": "list",
-          "cachedResultName": "fisa_crawl_history"
+          "cachedResultName": "fisa_crawl_histories"
         },
         "where": {
           "values": [
@@ -977,54 +1148,15 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [-2928, 2832],
-      "id": "d6aa0dbb-b404-48f7-b64b-cbb781f52927",
-      "name": "Select rows from a table",
-      "alwaysOutputData": true
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "pages",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [-2032, 2832],
-      "id": "e8943e4a-8773-4097-984f-93f5e5421597",
-      "name": "Split Out2"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst urls = [];\nfor (const item of $input.all()) {\n  urls.push(item.json.url)\n}\n\nreturn {\n  urls\n}"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [-2704, 2832],
-      "id": "b175ef8c-551a-41a8-8862-74a7e1fd6b08",
-      "name": "Code in JavaScript2"
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "combineBy": "combineAll",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [-912, 1552],
-      "id": "8fccf03d-0ae5-4b23-afc8-a8ee9c78dac9",
-      "name": "Merge"
-    },
-    {
-      "parameters": {
-        "description": "You can call the MCP to retrieve the current date and time\nbased on the user's locale and timezone.\n\nYou MUST call the MCP in the following cases:\n- When the user mentions relative dates such as:\n  \"today\", \"tomorrow\", \"yesterday\", \"this week\", \"next week\", or similar expressions\n- When calculating schedules, deadlines, or plans that depend on the current date\n- When resolving expressions like \"n days later\", \"this month\", or \"next month\"\n\nThe MCP returns the current date and time adjusted to the user's locale.\nAlways use the MCP result as the source of truth for \"now\".\n\nDo NOT assume or hardcode the current date or time.\nDo NOT calculate relative dates without calling the MCP first.\n",
-        "jsCode": "return new Date().toLocaleString('ko-KR', {\n  timeZone: 'Asia/Seoul'\n})\n"
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolCode",
-      "typeVersion": 1.3,
-      "position": [-1968, 3488],
-      "id": "f61a51f6-c95e-460e-9d26-ae113edbb86c",
-      "name": "현재날짜 반환"
+      "position": [-1120, 1360],
+      "id": "1ac15ed4-46b8-4c7c-aba2-d4db77e6f7bf",
+      "name": "크롤링url 조회",
+      "credentials": {
+        "mySql": {
+          "id": "OJtNhMocRmaFEQ1u",
+          "name": "MySQL account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -1066,7 +1198,7 @@
       "main": [
         [
           {
-            "node": "Select rows from a table",
+            "node": "크롤링url 조회",
             "type": "main",
             "index": 0
           }
@@ -1613,17 +1745,6 @@
         ]
       ]
     },
-    "Select rows from a table": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Split Out2": {
       "main": [
         [
@@ -1667,6 +1788,17 @@
           }
         ]
       ]
+    },
+    "크롤링url 조회": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -1674,11 +1806,11 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "6d29e3a5-6fed-43d5-b99c-07cd9695404f",
+  "versionId": "dfdfab31-d21e-4c37-afdb-f05ef0f43ae0",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "68f95072d6eeccd9215599b08992699f2f1d7fec8e4e146c79b722ddf70b36fb"
+    "instanceId": "899f531d8c4993e42e164a2b585a08e3143bf9aeaef763cb76802e8ee89acbc6"
   },
-  "id": "fZp1f_Y7O6igs85UazRLs",
+  "id": "GfCJcwyNnfsLve_tE6mqy",
   "tags": []
 }
