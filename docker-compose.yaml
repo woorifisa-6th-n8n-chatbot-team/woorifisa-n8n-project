@@ -34,51 +34,6 @@ services:
       - mysql_data:/var/lib/mysql
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  elasticsearch:
-    container_name: n8n_elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.3
-    restart: always
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - xpack.security.enrollment.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-
-  kibana:
-    container_name: n8n_kibana
-    image: docker.elastic.co/kibana/kibana:8.19.3
-    restart: always
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-
-  logstash:
-    container_name: n8n_logstash
-    build:
-      context: ./logstash
-      dockerfile: Dockerfile
-    restart: always
-    environment:
-      - "LS_JAVA_OPTS=-Xms256m -Xmx256m"
-    ports:
-      - "5044:5044"
-      - "9600:9600"
-    volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline
-      - ./logstash/config:/usr/share/logstash/config
-      - logstash_data:/usr/share/logstash/data
-    depends_on:
-      - elasticsearch
-      - mysql
-
   redis:
     container_name: n8n_redis
     image: redis:7-alpine
@@ -99,9 +54,143 @@ services:
     ports:
       - "3000:3000"
 
+  setup:
+    container_name: n8n_elasticsearch_setup
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.3
+    volumes:
+      - certs:/usr/share/elasticsearch/config/certs
+    user: "0"
+    command: >
+      bash -c '
+        if [ ! -f config/certs/ca.zip ]; then
+          echo "Creating CA";
+          bin/elasticsearch-certutil ca --silent --pem -out config/certs/ca.zip;
+          unzip config/certs/ca.zip -d config/certs;
+        fi;
+        if [ ! -f config/certs/certs.zip ]; then
+          echo "Creating certs";
+          echo -ne \
+          "instances:\n"\
+          "  - name: es01\n"\
+          "    dns:\n"\
+          "      - es01\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          "  - name: kibana\n"\
+          "    dns:\n"\
+          "      - kibana\n"\
+          "      - localhost\n"\
+          "    ip:\n"\
+          "      - 127.0.0.1\n"\
+          > config/certs/instances.yml;
+          bin/elasticsearch-certutil cert --silent --pem -out config/certs/certs.zip --in config/certs/instances.yml --ca-cert config/certs/ca/ca.crt --ca-key config/certs/ca/ca.key;
+          unzip config/certs/certs.zip -d config/certs;
+        fi;
+        echo "Setting file permissions"
+        chown -R root:root config/certs;
+        find . -type d -exec chmod 750 \{\} \;;
+        find . -type f -exec chmod 640 \{\} \;;
+        echo "Waiting for Elasticsearch availability";
+        until curl -s --cacert config/certs/ca/ca.crt https://es01:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
+        echo "Setting kibana_system password";
+        until curl -s -X POST --cacert config/certs/ca/ca.crt -u "elastic:fisa01" -H "Content-Type: application/json" https://es01:9200/_security/user/kibana_system/_password -d "{\"password\":\"fisa01\"}" | grep -q "^{}"; do sleep 10; done;
+        echo "All done!";
+      '
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f config/certs/es01/es01.crt ]"]
+      interval: 1s
+      timeout: 5s
+      retries: 120
+
+  es01:
+    depends_on:
+      setup:
+        condition: service_healthy
+    container_name: n8n_elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.3
+    restart: always
+    environment:
+      - node.name=es01
+      - cluster.name=n8n-cluster
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=fisa01
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.key=certs/es01/es01.key
+      - xpack.security.http.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.http.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.key=certs/es01/es01.key
+      - xpack.security.transport.ssl.certificate=certs/es01/es01.crt
+      - xpack.security.transport.ssl.certificate_authorities=certs/ca/ca.crt
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.license.self_generated.type=basic
+    ports:
+      - "9200:9200"
+    volumes:
+      - es01_data:/usr/share/elasticsearch/data
+      - certs:/usr/share/elasticsearch/config/certs
+    mem_limit: 2g
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+  kibana:
+    depends_on:
+      es01:
+        condition: service_healthy
+    container_name: n8n_kibana
+    image: docker.elastic.co/kibana/kibana:8.19.3
+    restart: always
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=https://es01:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=fisa01
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+      - XPACK_SECURITY_ENCRYPTIONKEY=c34d38b3a14956121ff2170e5030b471551370178f43e5626eec58b04a30fae2
+      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=c34d38b3a14956121ff2170e5030b471551370178f43e5626eec58b04a30fae2
+      - XPACK_REPORTING_ENCRYPTIONKEY=c34d38b3a14956121ff2170e5030b471551370178f43e5626eec58b04a30fae2
+    mem_limit: 1g
+    ports:
+      - "5601:5601"
+    volumes:
+      - certs:/usr/share/kibana/config/certs
+      - kibana_data:/usr/share/kibana/data
+
+  logstash:
+    container_name: n8n_logstash
+    build:
+      context: ./logstash
+      dockerfile: Dockerfile
+    restart: always
+    user: root
+    environment:
+      - xpack.monitoring.enabled=false
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    volumes:
+      - certs:/usr/share/logstash/certs
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logstash/config:/usr/share/logstash/config
+      - logstash_data:/usr/share/logstash/data
+    mem_limit: 1g
+    depends_on:
+      - es01
+      - mysql
+
 volumes:
   n8n_data:
   mysql_data:
-  elasticsearch_data:
-  logstash_data:
   redis_data:
+  certs:
+  es01_data:
+  kibana_data:
+  logstash_data:
