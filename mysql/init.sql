@@ -4,6 +4,18 @@ SET character_set_connection = utf8mb4;
 
 SET character_set_results = utf8mb4;
 
+-- 채팅 히스토리 테이블
+CREATE TABLE IF NOT EXISTS fisa_chat_histories (
+    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '고유 ID',
+    question_type TEXT COMMENT '질문유형',
+    learning_category TEXT COMMENT '학습카테고리',
+    general_answer TEXT COMMENT '답변',
+    schedule TEXT COMMENT '일정',
+    course_material TEXT COMMENT '수업자료',
+    blog_material TEXT COMMENT '블로그자료',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '생성일'
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '채팅 히스토리';
+
 -- 채팅 히스토리 예시 데이터 삽입
 INSERT INTO fisa_chat_histories
     (question_type, learning_category, general_answer, schedule, course_material, blog_material, created_at)
@@ -57,18 +69,6 @@ VALUES
     ('수업 내용 질문', 'DB', '페이징 성능(OFFSET vs 커서)을 비교했습니다.', '해당 없음', '없음', '없음', '2026-01-18 10:55:00'),
     ('과제 질문', 'JAVA', '제네릭(와일드카드) 사용 규칙을 정리했습니다.', '해당 없음', '없음', '없음', '2026-01-18 18:05:00'),
     ('오류 해결', '보안', 'XSS 방어(escape/Content-Security-Policy)를 정리했습니다.', '해당 없음', '없음', '없음', '2026-01-19 00:20:00');
-
--- 채팅 히스토리 테이블
-CREATE TABLE IF NOT EXISTS fisa_chat_histories (
-    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '고유 ID',
-    question_type TEXT COMMENT '질문유형',
-    learning_category TEXT COMMENT '학습카테고리',
-    general_answer TEXT COMMENT '답변',
-    schedule TEXT COMMENT '일정',
-    course_material TEXT COMMENT '수업자료',
-    blog_material TEXT COMMENT '블로그자료',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '생성일'
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '채팅 히스토리';
 
 -- 스케줄 테이블
 CREATE TABLE IF NOT EXISTS fisa_schedule (
