@@ -1,5 +1,5 @@
 {
-  "name": "WooriFisa POC 2",
+  "name": "WooriFisa",
   "nodes": [
     {
       "parameters": {
@@ -10,8 +10,11 @@
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
-      "position": [-720, 1792],
-      "id": "639098ae-be2f-4a04-8f6c-5fdabdc8d159",
+      "position": [
+        1656,
+        2612
+      ],
+      "id": "d5a3063c-3316-4d7b-b55a-94edfb7749a3",
       "name": "Chatbot"
     },
     {
@@ -41,8 +44,11 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [-448, 1360],
-      "id": "a17656d2-ac6c-4098-8f13-96337f680994",
+      "position": [
+        1920,
+        2388
+      ],
+      "id": "7eb607e2-a149-43d0-9e42-8b46e9cc5464",
       "name": "크롤링 결과 판단(Notion 교안)"
     },
     {
@@ -51,7 +57,9 @@
           "interval": [
             {
               "field": "weeks",
-              "triggerAtDay": [1],
+              "triggerAtDay": [
+                1
+              ],
               "triggerAtHour": 1
             }
           ]
@@ -59,20 +67,28 @@
       },
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
-      "position": [-1344, 320],
-      "id": "ca03acbd-c2ff-4d7f-8eba-c73214d7c919",
+      "position": [
+        1024,
+        1360
+      ],
+      "id": "409b5e5b-e076-436b-8185-8b91a68c6b25",
       "name": "주간 크롤러"
     },
     {
       "parameters": {
         "rule": {
-          "interval": [{}]
+          "interval": [
+            {}
+          ]
         }
       },
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
-      "position": [-1344, 1360],
-      "id": "dfe46e0a-02f3-4e10-b387-bd5972c2b0e7",
+      "position": [
+        1024,
+        2388
+      ],
+      "id": "35dc832c-bcfb-4367-910c-5f1d83774c15",
       "name": "일간 크롤러"
     },
     {
@@ -82,8 +98,11 @@
       },
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [-896, 320],
-      "id": "a59eeea5-4481-4f18-a0a7-c19edc25be4f",
+      "position": [
+        1472,
+        1360
+      ],
+      "id": "ae8dafe4-0216-4fee-9191-cae4107d3680",
       "name": "Split Out"
     },
     {
@@ -93,8 +112,11 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [448, 0],
-      "id": "d912c583-3b43-4425-87aa-cc754a05e0a3",
+      "position": [
+        2816,
+        1040
+      ],
+      "id": "441ec3de-f5f9-47bd-b95c-6889a349489a",
       "name": "상세정보 가져오기",
       "onError": "continueErrorOutput"
     },
@@ -104,8 +126,11 @@
       },
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [-224, 320],
-      "id": "57abbd58-3298-4b93-8d73-ac0bf9d0b0b5",
+      "position": [
+        2144,
+        1360
+      ],
+      "id": "ceb7fa96-3dd8-458b-ab27-69ffe40e9cbc",
       "name": "1개씩"
     },
     {
@@ -114,7 +139,9 @@
           "interval": [
             {
               "field": "weeks",
-              "triggerAtDay": [1],
+              "triggerAtDay": [
+                1
+              ],
               "triggerAtHour": 1
             }
           ]
@@ -122,8 +149,11 @@
       },
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
-      "position": [-1344, 896],
-      "id": "a5f4b3a2-06fd-4063-879c-5b95bd53f444",
+      "position": [
+        1024,
+        1936
+      ],
+      "id": "d8b930b4-3e6f-4e37-a122-ac4c3986140e",
       "name": "주간 크롤러1"
     },
     {
@@ -132,8 +162,11 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [672, 0],
-      "id": "73f25a35-9fba-4bb9-b1df-6d66e9d53b67",
+      "position": [
+        3040,
+        1040
+      ],
+      "id": "a6649897-6129-406b-9fbe-01c7055a2aeb",
       "name": "HTML 태그 제거"
     },
     {
@@ -142,8 +175,11 @@
       },
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
-      "position": [1840, 304],
-      "id": "b2054f95-00ed-41dc-8afb-582a64963f22",
+      "position": [
+        4200,
+        1336
+      ],
+      "id": "ba7afc2e-38cf-4228-9014-650f9f5b3d79",
       "name": "Default Data Loader"
     },
     {
@@ -152,8 +188,11 @@
       },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
-      "position": [-1344, 1968],
-      "id": "db12e594-e166-49c4-a2e8-7377a8a153a0",
+      "position": [
+        1024,
+        2996
+      ],
+      "id": "3c62a807-bcb1-4d4f-973e-4bdd53383303",
       "name": "When chat message received",
       "webhookId": "6cb24967-894f-41cb-8bb3-457d418e5d63"
     },
@@ -170,12 +209,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [448, 1232],
-      "id": "a2a14709-baff-470c-82dd-c95dc9d29227",
+      "position": [
+        2816,
+        2264
+      ],
+      "id": "f62e4e53-e8f9-4eba-b73f-cbda30bb253e",
       "name": "교안 스토어",
       "credentials": {
         "pineconeApi": {
-          "id": "liPAvxokzuWwqssg",
+          "id": "8JRWuWhSq8WbHWLf",
           "name": "PineconeApi account"
         }
       }
@@ -186,8 +228,11 @@
       },
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
-      "position": [576, 1456],
-      "id": "c3712c6f-860b-487b-9b2b-d671ef16104a",
+      "position": [
+        2952,
+        2488
+      ],
+      "id": "41e2ce20-a934-470c-a6ec-ae2f2b050460",
       "name": "Default Data Loader1"
     },
     {
@@ -207,12 +252,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
-      "position": [-1120, 2016],
-      "id": "63c97b93-0975-4510-b9b2-b5ed59513f74",
+      "position": [
+        1248,
+        2836
+      ],
+      "id": "d313382d-d7be-4cdb-af0e-ac20199c28f2",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "UzZRdpR4SL1clSaD",
+          "id": "VIaNxQPub35oMAIA",
           "name": "OpenAi account"
         }
       }
@@ -225,12 +273,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [1696, 304],
-      "id": "e9bf7a46-bdfd-4bc4-b763-43aa33ab7f5b",
+      "position": [
+        4072,
+        1336
+      ],
+      "id": "fc02c7a6-9fb8-425a-84b1-233baa09ff95",
       "name": "Embeddings OpenAI",
       "credentials": {
         "openAiApi": {
-          "id": "UzZRdpR4SL1clSaD",
+          "id": "VIaNxQPub35oMAIA",
           "name": "OpenAi account"
         }
       }
@@ -243,12 +294,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [448, 1456],
-      "id": "edf61986-28d4-4cd6-afbe-2a39a298cd38",
+      "position": [
+        2824,
+        2488
+      ],
+      "id": "08bf7061-33c4-464d-9c70-ee039b4d4228",
       "name": "Embeddings OpenAI1",
       "credentials": {
         "openAiApi": {
-          "id": "UzZRdpR4SL1clSaD",
+          "id": "VIaNxQPub35oMAIA",
           "name": "OpenAi account"
         }
       }
@@ -259,8 +313,11 @@
       },
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [0, 1360],
-      "id": "0169caa9-cfb3-4815-a578-73a70aab1224",
+      "position": [
+        2368,
+        2388
+      ],
+      "id": "ee53c3b4-e68c-46f0-83bc-905c0e3a0d43",
       "name": "Loop Over Items2"
     },
     {
@@ -269,8 +326,11 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [224, 1232],
-      "id": "bdf268e3-7852-495c-9f86-14b0d3437393",
+      "position": [
+        2592,
+        2264
+      ],
+      "id": "1916fbc9-a073-4fff-97b5-eec0f0ef6ead",
       "name": "Code in JavaScript1"
     },
     {
@@ -281,12 +341,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [-784, 2224],
-      "id": "f2ff0435-b139-44d8-8e8e-35498a19b543",
+      "position": [
+        1584,
+        3044
+      ],
+      "id": "5e8a30d9-49c4-424b-9d69-1067d22e491b",
       "name": "Embeddings OpenAI2",
       "credentials": {
         "openAiApi": {
-          "id": "UzZRdpR4SL1clSaD",
+          "id": "VIaNxQPub35oMAIA",
           "name": "OpenAi account"
         }
       }
@@ -299,12 +362,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [-496, 2224],
-      "id": "5c514472-39c5-4636-930d-ebd95d29c120",
+      "position": [
+        1872,
+        3044
+      ],
+      "id": "2f597b4a-0460-4c5b-ac70-a2dfb54652e6",
       "name": "Embeddings OpenAI3",
       "credentials": {
         "openAiApi": {
-          "id": "UzZRdpR4SL1clSaD",
+          "id": "VIaNxQPub35oMAIA",
           "name": "OpenAi account"
         }
       }
@@ -324,12 +390,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [-864, 2016],
-      "id": "2940129e-0701-4d66-9831-fda3bbc0fb72",
+      "position": [
+        1504,
+        2836
+      ],
+      "id": "0f601942-786f-42ce-9268-7a6cb481a357",
       "name": "lecture store(read)",
       "credentials": {
         "pineconeApi": {
-          "id": "liPAvxokzuWwqssg",
+          "id": "8JRWuWhSq8WbHWLf",
           "name": "PineconeApi account"
         }
       }
@@ -348,12 +417,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [-576, 2016],
-      "id": "2f1fca2b-dfdc-47a1-bc35-ad5e5868a7d5",
+      "position": [
+        1792,
+        2836
+      ],
+      "id": "3d0b13dc-1635-4bd9-bd69-574419409a98",
       "name": "blog store(read)",
       "credentials": {
         "pineconeApi": {
-          "id": "liPAvxokzuWwqssg",
+          "id": "8JRWuWhSq8WbHWLf",
           "name": "PineconeApi account"
         }
       }
@@ -385,8 +457,11 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [-448, 896],
-      "id": "338acbf2-bff4-4737-a96c-b86ecf49c9b7",
+      "position": [
+        1920,
+        1936
+      ],
+      "id": "25760a06-d1cb-4000-950d-39f7033d3784",
       "name": "0개 이상1"
     },
     {
@@ -395,8 +470,11 @@
       },
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [-224, 896],
-      "id": "6443a2a0-e2df-44de-ac83-cc0e57be28e8",
+      "position": [
+        2144,
+        1936
+      ],
+      "id": "75d1eedc-551a-48c5-9281-4892eef3deb5",
       "name": "1개씩1"
     },
     {
@@ -423,12 +501,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
-      "position": [1120, 80],
-      "id": "04047aa8-7997-454f-8044-8ab3b82762b4",
+      "position": [
+        3488,
+        1112
+      ],
+      "id": "9a08e8a5-c588-40e4-9968-dca1c4a3106b",
       "name": "임베딩 문서 최적화",
       "credentials": {
         "openAiApi": {
-          "id": "UzZRdpR4SL1clSaD",
+          "id": "VIaNxQPub35oMAIA",
           "name": "OpenAi account"
         }
       }
@@ -454,12 +535,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
-      "position": [448, 656],
-      "id": "0f536ca7-3c7d-4682-9247-4f61941d0970",
+      "position": [
+        2816,
+        1688
+      ],
+      "id": "fd714104-58ef-4d12-92d0-27efe554e1d9",
       "name": "임베딩 문서 최적화 2",
       "credentials": {
         "openAiApi": {
-          "id": "UzZRdpR4SL1clSaD",
+          "id": "VIaNxQPub35oMAIA",
           "name": "OpenAi account"
         }
       }
@@ -472,12 +556,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
-      "position": [1024, 880],
-      "id": "ec0c2380-3aee-4827-9720-41c9b17516d0",
+      "position": [
+        3400,
+        1912
+      ],
+      "id": "73eedd2f-33f2-4d2c-af2a-6f3947156ee3",
       "name": "Embeddings OpenAI4",
       "credentials": {
         "openAiApi": {
-          "id": "UzZRdpR4SL1clSaD",
+          "id": "VIaNxQPub35oMAIA",
           "name": "OpenAi account"
         }
       }
@@ -488,8 +575,11 @@
       },
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
-      "position": [1152, 880],
-      "id": "c9f4cb87-f90b-4bb1-b882-2dcb5ea17a82",
+      "position": [
+        3528,
+        1912
+      ],
+      "id": "bd0c9494-e169-4525-95eb-8201e6593af5",
       "name": "Default Data Loader2"
     },
     {
@@ -527,8 +617,11 @@
       },
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
-      "position": [-672, 320],
-      "id": "03c0d742-345e-474c-9907-a41ef63aae28",
+      "position": [
+        1696,
+        1360
+      ],
+      "id": "bea7518a-db9e-4426-ba64-5b58f8a79bee",
       "name": "저번주 데이터만 필터(임시 1년)"
     },
     {
@@ -566,8 +659,11 @@
       },
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
-      "position": [-672, 896],
-      "id": "0cc5424e-674d-4690-9e64-b0f195ec1ba6",
+      "position": [
+        1696,
+        1936
+      ],
+      "id": "f8cd846e-dea7-4dfc-8e6b-e2c2bc21f83d",
       "name": "저번주 데이터만 필터(임시 1년)2"
     },
     {
@@ -577,8 +673,11 @@
       },
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [-896, 896],
-      "id": "34a68d45-6476-4580-bb25-18971263901c",
+      "position": [
+        1472,
+        1936
+      ],
+      "id": "1c9414d4-2367-4b87-8644-93f3d6d259dd",
       "name": "Split Out1"
     },
     {
@@ -587,8 +686,11 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [800, 656],
-      "id": "12c95daf-fde8-4535-9c77-8e2bc3c872de",
+      "position": [
+        3168,
+        1688
+      ],
+      "id": "5cf4a665-8e30-48d8-a9e9-145e6fb2cbd6",
       "name": "임베딩 추출"
     },
     {
@@ -597,8 +699,11 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1472, 80],
-      "id": "55771fb2-3c3f-4f8e-b79b-720524044bc4",
+      "position": [
+        3840,
+        1112
+      ],
+      "id": "c22f40a1-9102-4367-a208-916623bc1a99",
       "name": "임베딩 추출2"
     },
     {
@@ -614,12 +719,15 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [1024, 656],
-      "id": "66625cdc-fdf3-4c9a-b605-08c9cedc9d39",
+      "position": [
+        3392,
+        1688
+      ],
+      "id": "0031a471-eaf1-44a3-86db-c9811c6f7944",
       "name": "블로그 store(저장)",
       "credentials": {
         "pineconeApi": {
-          "id": "liPAvxokzuWwqssg",
+          "id": "8JRWuWhSq8WbHWLf",
           "name": "PineconeApi account"
         }
       }
@@ -637,30 +745,16 @@
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
-      "position": [1696, 80],
-      "id": "0057f4f0-91e6-4550-8779-60b37bbff889",
+      "position": [
+        4064,
+        1112
+      ],
+      "id": "912e576c-6689-4000-ba20-fe71d334e96c",
       "name": "블로그 스토어 저장2",
       "credentials": {
         "pineconeApi": {
-          "id": "liPAvxokzuWwqssg",
+          "id": "8JRWuWhSq8WbHWLf",
           "name": "PineconeApi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "scrape",
-        "requestOptions": {}
-      },
-      "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
-      "typeVersion": 1,
-      "position": [-1120, 896],
-      "id": "e6a7a6f1-8100-45e7-8132-24193b071c77",
-      "name": "tistory 크롤러",
-      "credentials": {
-        "firecrawlApi": {
-          "id": "zEoiHdysjwKutTdl",
-          "name": "Firecrawl account"
         }
       }
     },
@@ -694,8 +788,11 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-1120, 320],
-      "id": "929ecf69-2c63-4ae6-8d34-4f2550c2bfc2",
+      "position": [
+        1248,
+        1360
+      ],
+      "id": "c7f51eb0-f070-4c76-8384-50bc9cdaed65",
       "name": "velog 크롤러",
       "onError": "continueErrorOutput"
     },
@@ -705,8 +802,11 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [48, 1792],
-      "id": "57cde3a6-1521-4873-a07d-5cbd4f47cf45",
+      "position": [
+        2416,
+        2820
+      ],
+      "id": "c3e895bc-dfe5-4472-b935-d8f1b0b2da30",
       "name": "Code in JavaScript"
     },
     {
@@ -717,20 +817,26 @@
       },
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
-      "position": [272, 1968],
-      "id": "9e1d2394-5548-4514-9313-6c8273053963",
+      "position": [
+        2640,
+        2996
+      ],
+      "id": "66e96b2d-2f4a-4ff7-aa66-9354aae06521",
       "name": "Merge1"
     },
     {
       "parameters": {},
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
-      "position": [-992, 2016],
-      "id": "f1f8da8c-27bd-4acc-995a-e7f43586b442",
+      "position": [
+        1376,
+        2836
+      ],
+      "id": "8d4742e9-b0b8-40fc-be3b-20e8e8f0ba17",
       "name": "Redis Chat Memory",
       "credentials": {
         "redis": {
-          "id": "qKd1lvP0f6TAaw71",
+          "id": "HN8PIYrmFU9GgbGF",
           "name": "Redis account"
         }
       }
@@ -764,12 +870,15 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [496, 1968],
-      "id": "23fdca55-af19-4890-a886-ed3796110dca",
+      "position": [
+        2864,
+        2996
+      ],
+      "id": "a90775ff-ca96-4de9-873a-4740f70c5064",
       "name": "Insert rows in a table",
       "credentials": {
         "mySql": {
-          "id": "OJtNhMocRmaFEQ1u",
+          "id": "DHP9uh7a5FDPRcqk",
           "name": "MySQL account"
         }
       }
@@ -788,12 +897,15 @@
       },
       "type": "n8n-nodes-base.mySqlTool",
       "typeVersion": 2.5,
-      "position": [-288, 2016],
-      "id": "100f1e9f-13a9-4334-b04c-7958510445e7",
+      "position": [
+        2080,
+        2836
+      ],
+      "id": "0e709296-4af2-40d1-8742-165e355c5e80",
       "name": "Select rows from a table in MySQL",
       "credentials": {
         "mySql": {
-          "id": "OJtNhMocRmaFEQ1u",
+          "id": "DHP9uh7a5FDPRcqk",
           "name": "MySQL account"
         }
       }
@@ -825,8 +937,11 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [-448, 320],
-      "id": "636a56c8-da49-4904-8f54-1b42fcc21126",
+      "position": [
+        1920,
+        1360
+      ],
+      "id": "d41fe2da-140c-430b-98a4-7927e92f59ad",
       "name": "0개 이상"
     },
     {
@@ -850,13 +965,16 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [0, 0],
-      "id": "57241df9-9ac0-48c5-a33e-1217a08aa8e9",
+      "position": [
+        2368,
+        1040
+      ],
+      "id": "3d1c211c-9272-4b2c-8e3b-a5cf11fec180",
       "name": "중복 데이터 확인",
       "alwaysOutputData": true,
       "credentials": {
         "mySql": {
-          "id": "OJtNhMocRmaFEQ1u",
+          "id": "DHP9uh7a5FDPRcqk",
           "name": "MySQL account"
         }
       }
@@ -886,12 +1004,15 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [2048, 208],
-      "id": "040dbb06-8baa-4652-8396-47e621ed6df9",
+      "position": [
+        4416,
+        1236
+      ],
+      "id": "ee89ae37-33b4-46cb-adb0-812b2afbc526",
       "name": "블로그 크롤링 정보 저장",
       "credentials": {
         "mySql": {
-          "id": "OJtNhMocRmaFEQ1u",
+          "id": "DHP9uh7a5FDPRcqk",
           "name": "MySQL account"
         }
       }
@@ -923,8 +1044,11 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [224, 0],
-      "id": "859243ff-c0a0-45e5-8283-d35409ac92bf",
+      "position": [
+        2592,
+        1040
+      ],
+      "id": "89cefc3a-085a-4052-b573-30ec57181aa6",
       "name": "중복이 아닌 경우"
     },
     {
@@ -948,13 +1072,16 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [0, 656],
-      "id": "24ec6d42-5924-4cb8-814a-0abd4b7f6e63",
+      "position": [
+        2368,
+        1688
+      ],
+      "id": "d443e83b-0d60-43cb-941d-c25ac382a543",
       "name": "중복 데이터 확인1",
       "alwaysOutputData": true,
       "credentials": {
         "mySql": {
-          "id": "OJtNhMocRmaFEQ1u",
+          "id": "DHP9uh7a5FDPRcqk",
           "name": "MySQL account"
         }
       }
@@ -986,8 +1113,11 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
-      "position": [224, 656],
-      "id": "66d00f66-b5c3-440a-84b3-ab2c330b325f",
+      "position": [
+        2592,
+        1688
+      ],
+      "id": "2d643e3c-9528-4b8c-a511-7b608f631262",
       "name": "If"
     },
     {
@@ -1015,12 +1145,15 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [1376, 784],
-      "id": "360057f7-d1f3-4fe5-96fc-ddb552eee773",
+      "position": [
+        3744,
+        1812
+      ],
+      "id": "da968da3-f906-4e8d-819c-d8430eaf0a4a",
       "name": "블로그 크롤링 정보 저장1",
       "credentials": {
         "mySql": {
-          "id": "OJtNhMocRmaFEQ1u",
+          "id": "DHP9uh7a5FDPRcqk",
           "name": "MySQL account"
         }
       }
@@ -1050,12 +1183,15 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [800, 1360],
-      "id": "760adb2b-2958-44ba-9f7d-319de8e3bb51",
+      "position": [
+        3168,
+        2388
+      ],
+      "id": "18ed378e-bc91-4e55-96f6-9eb80370eae9",
       "name": "Insert rows in a table1",
       "credentials": {
         "mySql": {
-          "id": "OJtNhMocRmaFEQ1u",
+          "id": "DHP9uh7a5FDPRcqk",
           "name": "MySQL account"
         }
       }
@@ -1079,8 +1215,11 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-672, 1360],
-      "id": "fd798d09-fbf2-40bb-a28b-318e822f777c",
+      "position": [
+        1696,
+        2388
+      ],
+      "id": "5bd8eccb-f4ab-4c82-b495-2a1ae05d8715",
       "name": "교안 노션 크롤러"
     },
     {
@@ -1090,8 +1229,11 @@
       },
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [-224, 1360],
-      "id": "344188cb-c829-4128-b8fd-f8880ee30fb5",
+      "position": [
+        2144,
+        2388
+      ],
+      "id": "eea37aae-2c08-47d1-b289-77a0a88657f5",
       "name": "Split Out2"
     },
     {
@@ -1100,8 +1242,11 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [-896, 1360],
-      "id": "be0f09ee-71ff-46ec-a19e-46cb0accf696",
+      "position": [
+        1472,
+        2388
+      ],
+      "id": "29faaa90-3e15-4265-aee6-4c2c15da78d4",
       "name": "Code in JavaScript2"
     },
     {
@@ -1112,8 +1257,11 @@
       },
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
-      "position": [896, 80],
-      "id": "77ebcfaa-5a99-47f0-911a-aadc2efe79b3",
+      "position": [
+        3264,
+        1112
+      ],
+      "id": "a0b5cd82-47c4-4ee1-840a-5771a28c3d7c",
       "name": "Merge"
     },
     {
@@ -1123,8 +1271,11 @@
       },
       "type": "@n8n/n8n-nodes-langchain.toolCode",
       "typeVersion": 1.3,
-      "position": [-160, 2016],
-      "id": "11e34838-d327-4143-a6c1-f24e5509a9d4",
+      "position": [
+        2208,
+        2836
+      ],
+      "id": "840ffd3e-6231-477a-9675-245bcb0eb418",
       "name": "현재날짜 반환"
     },
     {
@@ -1148,15 +1299,422 @@
       },
       "type": "n8n-nodes-base.mySql",
       "typeVersion": 2.5,
-      "position": [-1120, 1360],
-      "id": "1ac15ed4-46b8-4c7c-aba2-d4db77e6f7bf",
+      "position": [
+        1248,
+        2388
+      ],
+      "id": "b7b47268-947b-4ed8-9e08-93e52cea16bf",
       "name": "크롤링url 조회",
+      "alwaysOutputData": true,
       "credentials": {
         "mySql": {
-          "id": "OJtNhMocRmaFEQ1u",
+          "id": "DHP9uh7a5FDPRcqk",
           "name": "MySQL account"
         }
       }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output[0].content[0].text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "### TASK GUIDELINES\n1. **Language**: The quiz questions, options, and instructions MUST be written in **Korean**.\n2. **Technical Terms**: Keep core technical terms (e.g., Docker, Kubernetes, JVM, AWS, etc.) in English or include them in parentheses for clarity.\n3. **Question Composition**: Generate exactly 3 questions:\n   - **Q1 (Multiple Choice)**: Focus on a core theoretical concept. Provide 4 options in Korean.\n   - **Q2 (Short Answer)**: Focus on a specific tool, command, or technical term.\n   - **Q3 (Scenario/OX)**: A practical application question or a True/False statement.\n4. **Tone**: Use a polite, encouraging, and professional tone suitable for a Slack community. Use emojis (🚀, 💡, ✅) to enhance readability.\n\n### OUTPUT STRUCTURE (MUST BE IN KOREAN)\n## 📝 이번 주 복습 퀴즈 (Weekly Review)\n\n안녕하세요! 이번 주에 학습한 주요 내용을 복습해 볼까요? \n가볍게 퀴즈를 풀며 본인의 이해도를 체크해 보세요! 🔥\n\n---\n\n### [Q1] 객관식 퀴즈: 개념 확인\n(Write the question in Korean here)\n1) (Option A)\n2) (Option B)\n3) (Option C)\n4) (Option D)\n\n### [Q2] 단답형 퀴즈: 용어 및 명령어\n(Write the question in Korean here)\n> 힌트: (Provide a short Korean hint if necessary)\n\n### [Q3] OX/응용 퀴즈: 실무 상황\n(Write the question in Korean here)\n\n### CONTEXT & DATA USAGE GUIDELINES\n\n- If no explicit input data (such as topic, document, or summary) is provided:\n  - You MUST generate the quiz using the provided Vector Database.\n  - Retrieve the most relevant and/or most recent vectors as the primary context.\n  - Assume the Vector Database contains recent weekly learning materials, technical notes, or study content.\n\n- If explicit input data is provided:\n  - Prioritize user-provided input first.\n  - Use the Vector Database only as supplementary context.\n\n- Do NOT ask the user for missing input.\n- Do NOT mention the Vector Database, embeddings, retrieval, or context sources in the output.\n- The output must appear as a natural weekly review based on learned content.\n\n---\n\n### CONTENT SELECTION RULES\n\n- Select topics that are:\n  - Core and conceptually important (avoid trivia).\n  - Appropriate for a weekly technical review.\n  - Reasonably inferable from common backend, infrastructure, or software engineering study materials.\n\n- Question intent requirements:\n  - Q1: Foundational theoretical concept.\n  - Q2: Specific tool, command, or technical term.\n  - Q3: Realistic practical scenario or O/X (True/False) question.\n\n---\n\n### OUTPUT CONSTRAINTS\n\n- Follow the original OUTPUT STRUCTURE exactly.\n- All output MUST be written in Korean.\n- Maintain a polite, encouraging, and professional tone suitable for a Slack community.\n- Use emojis (🚀 💡 ✅) naturally and sparingly.\n- Do NOT include any explanations, metadata, or notes outside the defined output structure.\n\n---\n\n### MODEL BEHAVIOR SUMMARY\n\nEven when no explicit input is given, generate a meaningful weekly review quiz by leveraging the provided Vector Database and common technical learning patterns.\n\n### ANSWER GENERATION GUIDELINES (REQUIRED)\n\n- You MUST provide correct answers for all generated questions (Q1, Q2, Q3).\n- Answers MUST be included in the output.\n- Answers MUST be placed in a clearly separated section titled exactly:\n\n## ✅ 정답 & 해설\n\n- For each question:\n  - Q1: Provide the correct option number.\n  - Q2: Provide the correct short answer.\n  - Q3: Provide O or X as the answer.\n- Include a brief one-line explanation for each answer, written in Korean.\n- Explanations should be concise and educational, suitable for a weekly review.\n\n---\n\n### ANSWER OUTPUT RULES\n\n- The answer section MUST appear after all quiz questions.\n- Follow this exact format:\n\n- **Q1 정답:** (정답 번호)  \n  👉 (한 줄 해설)\n\n- **Q2 정답:** (정답)  \n  👉 (한 줄 해설)\n\n- **Q3 정답:** O / X  \n  👉 (한 줄 해설)\n\n- Do NOT reveal answers within the question sections.\n- Do NOT include any content outside the defined quiz and answer structure.\n\n---\n\n### FINAL OUTPUT CONSTRAINT (IMPORTANT)\n\n- The final output MUST include:\n  1. Quiz questions (Q1–Q3)\n  2. The \"## ✅ 정답 & 해설\" section\n- All content MUST be written in Korean.\n- Do NOT mention internal reasoning, Vector Database usage, or prompt instructions.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        2208,
+        3460
+      ],
+      "id": "27cc1ad0-e73d-4c66-a2e6-9ffd4d2c65cc",
+      "name": "Chatbot1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        2048,
+        3684
+      ],
+      "id": "68075c92-9441-41b2-8ec9-518d7dd5910c",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2384,
+        3892
+      ],
+      "id": "868fd750-3ca8-4302-8b0c-e1b05e0ef865",
+      "name": "Embeddings OpenAI5",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dimensions": 1024
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2672,
+        3892
+      ],
+      "id": "2d1e1bc4-a5af-4e73-8097-fa0f6804dfdb",
+      "name": "Embeddings OpenAI6",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "You are a retrieval-based assistant.\n\nThe knowledge base is a unified vector store containing embedded documents.\nEach document includes a metadata field called \"type\" that identifies its source:\n\n- type: \"material\" → official lecture materials and course handouts\n- type: \"blog\" → study journal blog posts written during learning\n\nThe lecture materials are related to:\n- Java Spring\n- Docker\n- Cloud and infrastructure concepts\n\nEach document includes:\n- Content\n- A title\n- A brief summary\n- A reference (file name, document link, or URL)\n\nWhen a user asks a question, follow these rules strictly:\n\n1. Retrieve the most relevant documents from the vector store using semantic similarity.\n2. Use ONLY the retrieved documents to construct the answer.\n3. Do NOT use prior knowledge, general knowledge, or assumptions.\n4. Separate retrieved documents based on their \"type\" metadata:\n   - Documents with type \"material\" must be placed in the \"materials\" array.\n   - Documents with type \"blog\" must be placed in the \"blogs\" array.\n\nResponse rules:\n- The response MUST be returned strictly in JSON format.\n- Do NOT include any text outside the JSON response.\n- Do NOT invent or infer any information.\n- Use only the exact metadata provided in the retrieved documents.\n- If no relevant documents exist for a section, return an empty array for that section.\n\nThe JSON response must follow this exact structure:\n\n{\n  \"answer\": string,\n  \"materials\": [\n    {\n      \"title\": string,\n      \"summary\": string,\n      \"reference\": string\n    }\n  ],\n  \"blogs\": [\n    {\n      \"title\": string,\n      \"summary\": string,\n      \"link\": string\n    }\n  ]\n}\n\nAdditional constraints:\n- \"materials\" and \"blogs\" must always be arrays.\n- Include only documents that are directly relevant to the user's question.\n- If no documents are relevant at all, return an empty array for both \"materials\" and \"blogs\", and keep \"answer\" concise and based only on retrieved content (or empty if nothing is retrieved).\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "woorifisa-lectures",
+          "mode": "list",
+          "cachedResultName": "woorifisa-lectures"
+        },
+        "topK": 5,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        2304,
+        3684
+      ],
+      "id": "12fdf39b-fe7a-4540-ae8e-3cb9379de1b6",
+      "name": "lecture store(read)1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8JRWuWhSq8WbHWLf",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "수업 교안자료\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "woorifisa-blogs",
+          "mode": "list",
+          "cachedResultName": "woorifisa-blogs"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        2592,
+        3684
+      ],
+      "id": "4c51c9b3-2e53-44d7-aa82-bad311ff6355",
+      "name": "blog store(read)1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "8JRWuWhSq8WbHWLf",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks"
+            }
+          ]
+        }
+      },
+      "id": "bb6d2ad8-aedf-4275-95ed-80708086cb75",
+      "name": "매주 월요일 9시",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1024,
+        3460
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "Agent",
+        "operation": "agent",
+        "prompt": "Search Instructions:\n\n1. Perform a web search using Google.\n2. Set the search region to South Korea (KR).\n3. Use the following search query:\n   \"우리FISA 클라우드 엔지니어링 site:tistory.com\"\n\nTarget Platform Rules:\n\n- Only include blog posts hosted on Tistory subdomains.\n- Valid URLs must match the pattern:\n  https://*.tistory.com/*\n- The root domain https://www.tistory.com itself is NOT a valid blog post source.\n\nSelection Rules:\n\n- Select up to 10 blog posts.\n- Sort results by published date, newest first.\n- There is no restriction on the publication date range.\n\nExclusion Rules:\n\n- Exclude the following:\n  - https://www.tistory.com/*\n  - Non-blog pages\n  - Category, tag, archive, or search result pages\n  - Index or listing pages\n  - Duplicate posts (deduplicate by canonical URL)\n\nCrawling Rules:\n\n- Each selected URL must represent a single, individual blog post.\n- Crawl each blog post page individually.\n\nContent Extraction Rules (per blog post):\n\nExtract the following fields:\n\n- title:\n  - The blog post title as displayed on the page\n\n- body_text:\n  - Extract the full readable article text only\n  - Exclude advertisements, navigation UI, sidebars, headers, footers, and comments\n  - Preserve the original text order\n\n- tags:\n  - List of tags associated with the post, if available\n\n- source_url:\n  - The original canonical URL of the blog post\n\n- published_date:\n  - The publication date as displayed on the page",
+        "schemaType": "manual",
+        "schema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"tistory_posts\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"required\": [\n          \"title\",\n          \"source_url\",\n          \"published_date\",\n          \"body_text\",\n          \"tags\"\n        ],\n        \"properties\": {\n          \"title\": {\n            \"type\": \"string\"\n          },\n          \"source_url\": {\n            \"type\": \"string\"\n          },\n          \"published_date\": {\n            \"type\": \"string\",\n            \"description\": \"Post publication date as shown on the original Tistory page (e.g. 2024-03-12)\"\n          },\n          \"body_text\": {\n            \"type\": \"string\",\n            \"description\": \"Full body text of the post. The publication date should also be included at the top of this text.\"\n          },\n          \"tags\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"string\"\n            }\n          }\n        },\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\"tistory_posts\"],\n  \"additionalProperties\": false\n}\n",
+        "requestOptions": {}
+      },
+      "type": "@mendable/n8n-nodes-firecrawl.firecrawl",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        1936
+      ],
+      "id": "604879ac-d652-4132-8b1c-29b945e41e77",
+      "name": "Agent - AI-powered web data extraction (waits for completion)",
+      "credentials": {
+        "firecrawlApi": {
+          "id": "5QKfzx8wbWPws6B3",
+          "name": "Firecrawl account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.output[0].id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        2176,
+        3684
+      ],
+      "id": "c53bf0b7-d4b5-4755-814c-4e0204b19219",
+      "name": "Redis Chat Memory1",
+      "credentials": {
+        "redis": {
+          "id": "HN8PIYrmFU9GgbGF",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "value": "fisa_chat_histories",
+          "mode": "list",
+          "cachedResultName": "fisa_chat_histories"
+        },
+        "limit": 7,
+        "sort": {
+          "values": [
+            {
+              "column": "created_at",
+              "direction": "DESC"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        1248,
+        3460
+      ],
+      "id": "411d96c3-90b4-4f80-9729-c5be69a3cb4a",
+      "name": "Select rows from a table1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function parseQuizResponse(rawText) {\n  const text = rawText\n    .replace(/\\r/g, \"\")\n    .replace(/\\u00a0/g, \" \")\n    .trim();\n\n  const result = {\n    title: \"이번 주 복습 퀴즈\",\n    description: \"\",\n    questions: []\n  };\n\n  /* ---------------- description ---------------- */\n\n  const descMatch = text.match(/##[\\s\\S]*?\\n([\\s\\S]*?)---/);\n  if (descMatch) {\n    result.description = descMatch[1].replace(/\\n+/g, \" \").trim();\n  }\n\n  /* ---------------- 문제 / 정답 분리 ---------------- */\n\n  const [questionPart, answerPart = \"\"] = text.split(/##\\s*✅\\s*정답/);\n\n  /* ---------------- 정답 맵 ---------------- */\n\n  const answerMap = {};\n  const answerRegex =\n    /\\*\\*\\s*Q(\\d+)\\s*정답\\s*:\\s*([^\\n]+)[\\s\\S]*?👉\\s*(.+?)(?=\\n\\n|\\n\\*|$)/g;\n\n  let am;\n  while ((am = answerRegex.exec(answerPart))) {\n    answerMap[`Q${am[1]}`] = {\n      answer: am[2].trim(),\n      explanation: am[3].trim()\n    };\n  }\n\n  /* ---------------- 문제 블록 파싱 ---------------- */\n\n  const questionBlockRegex =\n    /###\\s*\\[Q(\\d+)\\][\\s\\S]*?(?=###\\s*\\[Q\\d+\\]|##\\s*✅|$)/g;\n\n  let qm;\n  while ((qm = questionBlockRegex.exec(questionPart))) {\n    const block = qm[0];\n    const id = `Q${qm[1]}`;\n\n    const lines = block.split(\"\\n\").map(l => l.trim());\n\n    const options = [];\n    let questionText = \"\";\n    let hint = null;\n\n    lines.forEach(line => {\n      if (/^\\d+\\)/.test(line)) {\n        options.push(line.replace(/^\\d+\\)\\s*/, \"\"));\n      } else if (line.startsWith(\">\") && line.includes(\"힌트\")) {\n        hint = line.replace(/^>?\\s*힌트:\\s*/, \"\");\n      } else if (\n        line &&\n        !line.startsWith(\"###\") &&\n        !line.startsWith(\"-\") &&\n        !line.includes(\"힌트\")\n      ) {\n        questionText += (questionText ? \" \" : \"\") + line;\n      }\n    });\n\n    let type = \"short_answer\";\n    if (options.length === 4) type = \"multiple_choice\";\n    else if (questionText.includes(\"O/X\")) type = \"ox_scenario\";\n\n    const answerInfo = answerMap[id] || { answer: null, explanation: null };\n\n    result.questions.push({\n      id,\n      type,\n      question: questionText.trim(),\n      ...(options.length ? { options } : {}),\n      ...(hint ? { hint } : {}),\n      answer: answerInfo.answer,\n      explanation: answerInfo.explanation\n    });\n  }\n\n  return result;\n}\n\n\n/* n8n / Node.js usage */\nreturn [parseQuizResponse($input.first().json.output)].map(quiz => ({\n  ...quiz,\n  questions: quiz.questions.map(q => ({\n    ...q,\n    answer: q.answer ? q.answer.replace(/^\\*\\*\\s*/, \"\") : null\n  }))\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2960,
+        3556
+      ],
+      "id": "da2f6865-043d-4c10-948f-85ac0f2414a0",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "fisa_quiz_questions",
+          "mode": "list",
+          "cachedResultName": "fisa_quiz_questions"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "question_id",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "column": "type",
+              "value": "={{ $json.type }}"
+            },
+            {
+              "column": "question",
+              "value": "={{ $json.question }}"
+            },
+            {
+              "column": "explanation",
+              "value": "={{ $json.explanation }}"
+            },
+            {
+              "column": "answer",
+              "value": "={{ $json.answer }}"
+            },
+            {
+              "column": "options",
+              "value": "={{ JSON.stringify($json.options) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        3632,
+        3556
+      ],
+      "id": "15e418e5-1b60-4122-a5e0-79cfe975ac2d",
+      "name": "Insert rows in a table2",
+      "credentials": {
+        "mySql": {
+          "id": "DHP9uh7a5FDPRcqk",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "YOUR_SLACK_CHANNEL_ID",
+          "mode": "list"
+        },
+        "text": "=🚀 **이번 주 복습 퀴즈가 도착했습니다!**\n\n{{ $json.output }}\n\n정답을 아시는 분은 댓글로 남겨주세요! 🔥",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "id": "db47e191-faec-4bf1-9451-f4039bea208e",
+      "name": "슬랙 퀴즈 발송",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        2960,
+        3364
+      ],
+      "webhookId": "6dddf171-369b-49aa-beeb-0c29beff4541",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  if(!item.json.questions){\n    item.json.questions = [];\n  }\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        3460
+      ],
+      "id": "09720dcb-59c4-44e3-827c-4acfb1816288",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=### INPUT DATA:\n{{ $json[\"questions\"] }}\n\n### TASK:\nAnalyze the input and output a structured technical summary.\n\n### GUIDELINES:\n1. TOPICS: Identify the 3 most discussed technical categories.\n2. KEYWORDS: Extract 5-7 specific technical terms or commands.\n3. CONTEXT: Summarize the main technical challenge students faced this week in 2 sentences.\n\n### OUTPUT FORMAT:\nCore_Topics: <topic1, topic2, topic3>\nKey_Keywords: <key1, key2, key3, key4, key5>\nTechnical_Summary: <Your 2-sentence summary here>\n\n### FILTER:\nImmediately discard any data related to \"schedules\", \"lunch\", \"links\", or \"personal talk\"."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        1696,
+        3460
+      ],
+      "id": "34388397-034c-46d1-bc4a-32d0007e9382",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "VIaNxQPub35oMAIA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "questions",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3184,
+        3556
+      ],
+      "id": "265957c2-a509-48c6-881d-c0657fbceaec",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3408,
+        3556
+      ],
+      "id": "01c75ad1-fcd3-4440-9780-2dcac71ebc56",
+      "name": "Loop Over Items"
     }
   ],
   "pinData": {},
@@ -1255,7 +1813,7 @@
       "main": [
         [
           {
-            "node": "tistory 크롤러",
+            "node": "Agent - AI-powered web data extraction (waits for completion)",
             "type": "main",
             "index": 0
           }
@@ -1566,17 +2124,6 @@
         ]
       ]
     },
-    "tistory 크롤러": {
-      "main": [
-        [
-          {
-            "node": "Split Out1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "velog 크롤러": {
       "main": [
         [
@@ -1799,6 +2346,188 @@
           }
         ]
       ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Chatbot1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI5": {
+      "ai_embedding": [
+        [
+          {
+            "node": "lecture store(read)1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI6": {
+      "ai_embedding": [
+        [
+          {
+            "node": "blog store(read)1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lecture store(read)1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Chatbot1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "blog store(read)1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Chatbot1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "매주 월요일 9시": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent - AI-powered web data extraction (waits for completion)": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chatbot1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chatbot1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "슬랙 퀴즈 발송",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Chatbot1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Insert rows in a table2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -1806,11 +2535,11 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "dfdfab31-d21e-4c37-afdb-f05ef0f43ae0",
+  "versionId": "e6413a56-c8b7-4834-a1b6-6eb17bcb9851",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "899f531d8c4993e42e164a2b585a08e3143bf9aeaef763cb76802e8ee89acbc6"
+    "instanceId": "a3417737af2031ff8ab51b039c477e238c317daecd09edf48b8c0f91b5c7f445"
   },
-  "id": "GfCJcwyNnfsLve_tE6mqy",
+  "id": "h8bMfmtrz_r6uzchP4PZC",
   "tags": []
 }
