@@ -228,7 +228,7 @@ export function ChatInterface() {
         <RabbitAvatar size="md" />
         <div>
           <h1 className="font-semibold text-lg text-foreground">CuteRabbit</h1>
-          <p className="text-sm text-muted-foreground">당신의 귀여운 AI 친구</p>
+          <p className="text-sm text-muted-foreground">당신의 귀여운 AI 학습 도우미</p>
         </div>
         <div className="ml-auto flex items-center gap-2">
           <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />

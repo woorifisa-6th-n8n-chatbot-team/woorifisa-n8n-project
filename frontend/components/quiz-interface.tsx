@@ -199,7 +199,7 @@ export function QuizInterface() {
             {q.options.map((opt, idx) => (
               <button
                 key={opt}
-                className={`w-full py-3 rounded-xl border text-lg font-medium transition-all ${selected === String(idx + 1) ? (showAnswer ? (selected === answerObj?.answer ? "bg-green-200 border-green-400" : "bg-red-200 border-red-400") : "bg-primary/10 border-primary") : "bg-secondary border-border hover:bg-primary/10"}`}
+                className={`w-full py-3 rounded-xl border text-sm font-medium transition-all ${selected === String(idx + 1) ? (showAnswer ? (selected === answerObj?.answer ? "bg-green-200 border-green-400" : "bg-red-200 border-red-400") : "bg-primary/10 border-primary") : "bg-secondary border-border hover:bg-primary/10"}`}
                 onClick={() => !showAnswer && setSelected(String(idx + 1))}
                 disabled={showAnswer}
               >
