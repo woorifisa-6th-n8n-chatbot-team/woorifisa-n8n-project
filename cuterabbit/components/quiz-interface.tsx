@@ -1,5 +1,8 @@
 "use client";
-import React, { useState } from "react";
+
+import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from "@/components/ui/empty";
+import { RabbitAvatar } from "./rabbit-avatar";
+import { useEffect, useState } from "react";
 
 type QuizType = "multiple_choice" | "short_answer" | "ox_scenario";
 interface QuizQuestion {
@@ -34,7 +37,7 @@ export function QuizInterface() {
   const [webhookUrl, setWebhookUrl] = useState<string>("");
 
   // Load webhookUrl from localStorage on mount
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(QUIZ_WEBHOOK_KEY);
       if (saved) setWebhookUrl(saved);
@@ -42,7 +45,7 @@ export function QuizInterface() {
   }, []);
 
   // Save webhookUrl to localStorage when changed
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof window !== "undefined" && webhookUrl) {
       localStorage.setItem(QUIZ_WEBHOOK_KEY, webhookUrl);
     }
@@ -79,9 +82,29 @@ export function QuizInterface() {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!quiz && webhookUrl) fetchQuiz();
   }, [webhookUrl]);
+
+
+  if (!webhookUrl) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen px-4">
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <RabbitAvatar size="md" />
+            </EmptyMedia>
+            <EmptyTitle>Webhook URL이 필요해요</EmptyTitle>
+            <EmptyDescription>
+              퀴즈 기능을 사용하려면 우측 상단 톱니바퀴(설정)에서 Webhook URL을 먼저 입력해주세요!<br />
+              <span className="text-xs text-muted-foreground">n8n에서 발급한 Webhook URL을 입력해야 합니다.</span>
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      </div>
+    );
+  }
 
   if (!quiz) {
     return (

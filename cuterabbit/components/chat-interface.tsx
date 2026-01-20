@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ChatMessage } from "./chat-message";
 import { TypingIndicator } from "./typing-indicator";
 import { RabbitAvatar } from "./rabbit-avatar";
+import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from "@/components/ui/empty";
 
 interface Message {
   id: string;
@@ -199,6 +200,26 @@ export function ChatInterface() {
       sendMessage();
     }
   };
+
+  // 웹훅 URL이 없으면 안내 UI를 보여줌
+  if (!webhookUrl) {
+    return (
+      <div className="flex flex-col h-screen max-w-2xl mx-auto items-center justify-center">
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <RabbitAvatar size="md" />
+            </EmptyMedia>
+            <EmptyTitle>Webhook URL이 필요해요</EmptyTitle>
+            <EmptyDescription>
+              채팅 기능을 사용하려면 설정 페이지에서 Webhook URL을 먼저 입력해주세요!<br />
+              <span className="text-xs text-muted-foreground">n8n에서 발급한 Webhook URL을 입력해야 합니다.</span>
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-screen max-w-2xl mx-auto">
