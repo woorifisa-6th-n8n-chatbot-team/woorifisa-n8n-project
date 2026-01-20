@@ -54,6 +54,15 @@ services:
     ports:
       - "3000:3000"
 
+  frontend:
+    container_name: n8n_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "4000:3000"
+
   setup:
     container_name: n8n_elasticsearch_setup
     image: docker.elastic.co/elasticsearch/elasticsearch:8.19.3
