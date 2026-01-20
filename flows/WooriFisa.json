@@ -1485,7 +1485,7 @@
       "typeVersion": 1.3,
       "position": [
         2464,
-        3732
+        3524
       ],
       "id": "963b4ef3-80bc-4368-99f7-c2c6a4f1b770",
       "name": "blog store(read)1",
@@ -1506,7 +1506,7 @@
       "typeVersion": 1.2,
       "position": [
         2544,
-        3940
+        3732
       ],
       "id": "64128df7-515a-4387-920e-83b5e8d42b05",
       "name": "Embeddings OpenAI6",
@@ -1527,7 +1527,7 @@
       "typeVersion": 1.2,
       "position": [
         2832,
-        3940
+        3732
       ],
       "id": "8ffa7518-3ced-4562-b0b6-b1b800e16d54",
       "name": "Embeddings OpenAI5",
@@ -1555,7 +1555,7 @@
       "typeVersion": 1.3,
       "position": [
         2752,
-        3732
+        3524
       ],
       "id": "eeb5061b-f94e-490a-8080-bc7e1cb0d223",
       "name": "lecture store(read)1",
@@ -1580,7 +1580,7 @@
       "typeVersion": 1.3,
       "position": [
         2208,
-        3732
+        3524
       ],
       "id": "208f62e7-81f7-443e-accf-62788e99d03f",
       "name": "OpenAI Chat Model1",
@@ -1603,7 +1603,7 @@
       "typeVersion": 3.1,
       "position": [
         2368,
-        3508
+        3300
       ],
       "id": "a05c9452-6bcd-4a25-875a-df73f043b29a",
       "name": "AI Agent"
@@ -1717,7 +1717,7 @@
       "typeVersion": 1.5,
       "position": [
         2336,
-        3732
+        3524
       ],
       "id": "9e876db0-56f9-4605-8a02-51a41e17b5e5",
       "name": "Redis Chat Memory1",
@@ -1727,6 +1727,214 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        4156
+      ],
+      "id": "0775c01a-6240-4e3a-82b4-625f6f2b2520",
+      "name": "주간 트리거"
+    },
+    {
+      "parameters": {
+        "sendTo": "azs8017@naver.com",
+        "subject": "report",
+        "message": "3가지 그래프 형식",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2304,
+        3964
+      ],
+      "id": "ca3b445f-4e09-427e-9b5b-eeaab788bac7",
+      "name": "메일전송",
+      "webhookId": "6c1b84b3-b1e8-468c-96ff-df983c3cb997"
+    },
+    {
+      "parameters": {
+        "chartType": "pie",
+        "labelsMode": "array",
+        "labelsArray": "={{ $json.questions.flatMap(o => Object.keys(o)) }}",
+        "data": "={{ $json.questions.flatMap(o => Object.values(o)) }}",
+        "chartOptions": {},
+        "datasetOptions": {}
+      },
+      "type": "n8n-nodes-base.quickChart",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        3940
+      ],
+      "id": "536d3d35-bdbc-4d5e-b05c-824423964e81",
+      "name": "질문 분류 파이그래프"
+    },
+    {
+      "parameters": {
+        "labelsMode": "array",
+        "labelsArray": "={{ $json.learnings.flatMap(o => Object.keys(o)) }}",
+        "data": "={{ $json.learnings.flatMap(o => Object.values(o)) }}",
+        "chartOptions": {},
+        "datasetOptions": {}
+      },
+      "type": "n8n-nodes-base.quickChart",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        4132
+      ],
+      "id": "329b6d88-2409-41df-a9b8-96f5fab2c0e1",
+      "name": "학습 카테고리 막대그래프"
+    },
+    {
+      "parameters": {
+        "chartType": "line",
+        "labelsMode": "array",
+        "labelsArray": "={{ $json.dates.flatMap(o => Object.keys(o)) }}",
+        "data": "={{ $json.dates.flatMap(o => Object.values(o)) }}",
+        "chartOptions": {},
+        "datasetOptions": {}
+      },
+      "type": "n8n-nodes-base.quickChart",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        4324
+      ],
+      "id": "2aa6974d-09fb-410a-bfe7-012339906904",
+      "name": "일자별 질문 수 라인 그래프"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1632,
+        4116
+      ],
+      "id": "25a829d1-44ef-4458-86b7-adb223784293",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "folderId": "1v3XwiOE6KIj7BIQHYWX-4R2GoLlH9vNn",
+        "title": "주간 보고서"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1856,
+        4132
+      ],
+      "id": "3ea17602-2036-42cd-b068-8e2ffb2a5ec8",
+      "name": "보고서 생성"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{$node[\"보고서 생성\"].json.id}}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "=={{ $json.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2528,
+        4228
+      ],
+      "id": "fd200ded-4532-45eb-b2c8-78d0fa5affbc",
+      "name": "보고서 수정"
+    },
+    {
+      "parameters": {
+        "name": "={{$binary.data.fileName || ('chart_' + $itemIndex + '.png')}}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1v3XwiOE6KIj7BIQHYWX-4R2GoLlH9vNn",
+          "mode": "list",
+          "cachedResultName": "n8n drive",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1v3XwiOE6KIj7BIQHYWX-4R2GoLlH9vNn"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2304,
+        4156
+      ],
+      "id": "1722ba83-75fd-44e1-b41a-71b797f953bc",
+      "name": "Upload file"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst learningCategories = new Map();\nconst questionCategories = new Map();\nconst dates = new Map();\nfor (const item of $input.all()) {\n  const prevVal1= (learningCategories.get(item.json.학습카테고리) || 0) + 1;\n  const prevVal2 = (questionCategories.get(item.json.질문유형) || 0) + 1;\n  const date = new Date(item.json.생성일).toLocaleDateString('ko-KR');\n  const prevVal3 = (dates.get(date) || 0) + 1;\n  learningCategories.set(item.json.학습카테고리, prevVal1);\n  questionCategories.set(item.json.질문유형, prevVal2);\n  dates.set(date, prevVal3)\n}\n\nreturn {\n  questions: [...questionCategories].map(([k,v]) => ({\n    [k]:v\n  })),\n  learnings: [...learningCategories].map(([k,v]) => ({\n    [k]: v\n  })),\n  dates: [...dates].map(([k,v]) => ({\n    [k]: v\n  })),\n  data: $input.all()\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        4156
+      ],
+      "id": "fefe2614-1f41-45a5-9376-75209b1b8e56",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2080,
+        4132
+      ],
+      "id": "498f0c89-1e2a-4b1e-b377-ef08a4fb68f0",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.5,
+      "position": [
+        960,
+        4156
+      ],
+      "id": "6dbbca46-a6d1-43ab-97b0-57bfa08c14d0",
+      "name": "Select rows from a table"
     }
   ],
   "pinData": {},
@@ -2557,6 +2765,144 @@
           }
         ]
       ]
+    },
+    "주간 트리거": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "질문 분류 파이그래프": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "학습 카테고리 막대그래프": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "일자별 질문 수 라인 그래프": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "보고서 생성",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "보고서 생성": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "보고서 수정": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "보고서 수정",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "질문 분류 파이그래프",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "학습 카테고리 막대그래프",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "일자별 질문 수 라인 그래프",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "메일전송",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select rows from a table": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -2564,7 +2910,7 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "b3fdfc13-1437-4bed-a9c6-0b35bd75e27e",
+  "versionId": "34bf9514-ea4c-459a-add9-ececb5e471c0",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "a3417737af2031ff8ab51b039c477e238c317daecd09edf48b8c0f91b5c7f445"
