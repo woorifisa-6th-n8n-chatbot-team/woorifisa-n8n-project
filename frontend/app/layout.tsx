@@ -1,15 +1,11 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "CuteRabbit - 귀여운 AI 학습도우미",
-  description: "당신의 귀여운 토끼 AI 학습도우미, CuteRabbit과 대화해보세요!",
+  title: "WOORIFISA AI 학습에이전트",
+  description: "WOORIFISA AI 학습에이전트와 대화해보세요!",
   generator: "v0.app",
   icons: {
     icon: [

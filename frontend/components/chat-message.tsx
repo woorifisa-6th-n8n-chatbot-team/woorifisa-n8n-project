@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { RabbitAvatar } from "./rabbit-avatar"
+import { RabbitAvatar } from "./rabbit-avatar";
 
 interface ChatMessageProps {
-  content: string
-  isBot: boolean
-  timestamp?: Date
+  content: string;
+  isBot: boolean;
+  timestamp?: Date;
 }
 
 export function ChatMessage({ content, isBot, timestamp }: ChatMessageProps) {
@@ -27,11 +27,16 @@ export function ChatMessage({ content, isBot, timestamp }: ChatMessageProps) {
       >
         <p className="text-sm leading-relaxed whitespace-pre-wrap">{content}</p>
         {timestamp && (
-          <p className={`text-xs mt-1 ${isBot ? "text-muted-foreground" : "text-primary-foreground/70"}`}>
-            {timestamp.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}
+          <p
+            className={`text-xs mt-1 ${isBot ? "text-muted-foreground" : "text-primary-foreground/70"}`}
+          >
+            {timestamp.toLocaleTimeString("ko-KR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </p>
         )}
       </div>
     </div>
-  )
+  );
 }

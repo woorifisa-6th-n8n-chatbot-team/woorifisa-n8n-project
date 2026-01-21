@@ -1,6 +1,12 @@
 "use client";
 
-import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from "@/components/ui/empty";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyMedia,
+} from "@/components/ui/empty";
 import { RabbitAvatar } from "./rabbit-avatar";
 import { useEffect, useState } from "react";
 
@@ -86,7 +92,6 @@ export function QuizInterface() {
     if (!quiz && webhookUrl) fetchQuiz();
   }, [webhookUrl]);
 
-
   if (!webhookUrl) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
@@ -97,8 +102,12 @@ export function QuizInterface() {
             </EmptyMedia>
             <EmptyTitle>Webhook URL이 필요해요</EmptyTitle>
             <EmptyDescription>
-              퀴즈 기능을 사용하려면 우측 상단 톱니바퀴(설정)에서 Webhook URL을 먼저 입력해주세요!<br />
-              <span className="text-xs text-muted-foreground">n8n에서 발급한 Webhook URL을 입력해야 합니다.</span>
+              퀴즈 기능을 사용하려면 우측 상단 톱니바퀴(설정)에서 Webhook URL을
+              먼저 입력해주세요!
+              <br />
+              <span className="text-xs text-muted-foreground">
+                n8n에서 발급한 Webhook URL을 입력해야 합니다.
+              </span>
             </EmptyDescription>
           </EmptyHeader>
         </Empty>
@@ -110,7 +119,7 @@ export function QuizInterface() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
         <div className="flex w-full max-w-2xl justify-center items-center mb-4 mx-auto">
-          <h1 className="text-xl font-bold">🐰 퀴즈</h1>
+          <h1 className="text-xl font-bold">퀴즈</h1>
         </div>
         {loading ? (
           <div>문제를 불러오는 중...</div>
@@ -130,7 +139,7 @@ export function QuizInterface() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
         <div className="flex w-full max-w-2xl justify-center items-center mb-4 mx-auto">
-          <h1 className="text-xl font-bold text-center">🐰 오류</h1>
+          <h1 className="text-xl font-bold text-center">오류</h1>
         </div>
         <div className="mt-2 text-sm text-muted-foreground text-center whitespace-pre-line max-w-md">
           {quiz.introduction}

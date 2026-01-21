@@ -75,32 +75,32 @@ export default function Home() {
       )}
       <img
         src="/icon.png"
-        alt="CuteRabbit Icon"
+        alt="WOORIFISA Icon"
         className="w-20 h-20 mb-4 rounded-full shadow-lg border bg-white object-contain"
         style={{ marginLeft: "auto", marginRight: "auto" }}
       />
       <h1 className="text-2xl font-bold mb-8 text-center">
-        CuteRabbit 학습 도우미
+        WOORIFISA 에이전트
       </h1>
       <div className="flex flex-col gap-6 w-full max-w-xs">
         <button
           className="w-full py-5 rounded-2xl bg-primary text-white text-lg font-semibold shadow-md hover:bg-primary/90 transition"
           onClick={() => router.push("/chat")}
         >
-          🐰 채팅 시작
+          채팅 시작
         </button>
         <button
           className="w-full py-5 rounded-2xl bg-secondary text-foreground text-lg font-semibold shadow-md hover:bg-secondary/80 transition"
           onClick={() => router.push("/quiz")}
         >
-          📝 퀴즈 시작
+          퀴즈 시작
         </button>
         <button
           className="w-full py-5 rounded-2xl bg-slate-800 text-foreground text-lg font-semibold shadow-md hover:bg-muted/80 transition flex items-center justify-center gap-2"
           onClick={() => setShowSettings((v) => !v)}
           title="설정"
         >
-          ⚙ 설정
+          설정
         </button>
       </div>
     </main>

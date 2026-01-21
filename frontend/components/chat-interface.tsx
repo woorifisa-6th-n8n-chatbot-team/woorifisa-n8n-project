@@ -8,7 +8,13 @@ import { Button } from "@/components/ui/button";
 import { ChatMessage } from "./chat-message";
 import { TypingIndicator } from "./typing-indicator";
 import { RabbitAvatar } from "./rabbit-avatar";
-import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from "@/components/ui/empty";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyMedia,
+} from "@/components/ui/empty";
 
 interface Message {
   id: string;
@@ -37,7 +43,8 @@ export function ChatInterface() {
     return [
       {
         id: "welcome",
-        content: "안녕하세요! 저는 CuteRabbit이에요 🐰\n무엇이든 물어보세요!",
+        content:
+          "안녕하세요! 저는 WOORIFISA AI 학습에이전트에요\n 무엇이든 물어보세요!",
         isBot: true,
         timestamp: new Date(),
       },
@@ -212,8 +219,12 @@ export function ChatInterface() {
             </EmptyMedia>
             <EmptyTitle>Webhook URL이 필요해요</EmptyTitle>
             <EmptyDescription>
-              채팅 기능을 사용하려면 설정 페이지에서 Webhook URL을 먼저 입력해주세요!<br />
-              <span className="text-xs text-muted-foreground">n8n에서 발급한 Webhook URL을 입력해야 합니다.</span>
+              채팅 기능을 사용하려면 설정 페이지에서 Webhook URL을 먼저
+              입력해주세요!
+              <br />
+              <span className="text-xs text-muted-foreground">
+                n8n에서 발급한 Webhook URL을 입력해야 합니다.
+              </span>
             </EmptyDescription>
           </EmptyHeader>
         </Empty>
@@ -227,8 +238,8 @@ export function ChatInterface() {
       <header className="flex items-center gap-4 px-6 py-4 bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-10">
         <RabbitAvatar size="md" />
         <div>
-          <h1 className="font-semibold text-lg text-foreground">CuteRabbit</h1>
-          <p className="text-sm text-muted-foreground">당신의 귀여운 AI 학습 도우미</p>
+          <h1 className="font-semibold text-lg text-foreground">WOORIFISA</h1>
+          <p className="text-sm text-muted-foreground">AI 학습 에이전트</p>
         </div>
         <div className="ml-auto flex items-center gap-2">
           <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
@@ -274,7 +285,7 @@ export function ChatInterface() {
           </Button>
         </div>
         <p className="text-xs text-center text-muted-foreground mt-2">
-          CuteRabbit은 n8n으로 구동됩니다
+          WOORIFISA 에이전트는 n8n으로 구동됩니다
         </p>
       </footer>
     </div>
