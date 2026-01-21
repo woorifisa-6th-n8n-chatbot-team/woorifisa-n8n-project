@@ -96,7 +96,7 @@ export default function Home() {
           📝 퀴즈 시작
         </button>
         <button
-          className="w-full py-5 rounded-2xl bg-blue-100 text-foreground text-lg font-semibold shadow-md hover:bg-muted/80 transition flex items-center justify-center gap-2"
+          className="w-full py-5 rounded-2xl bg-slate-800 text-foreground text-lg font-semibold shadow-md hover:bg-muted/80 transition flex items-center justify-center gap-2"
           onClick={() => setShowSettings((v) => !v)}
           title="설정"
         >
