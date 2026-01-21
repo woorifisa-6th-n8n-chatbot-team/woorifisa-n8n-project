@@ -59,17 +59,25 @@
 * **Elasticsearch & Kibana**: 학생별 질문 빈도, 퀴즈 정답률, 이해도 추이를 시각화
 
 
+5. **Weekly Email Report**
+![이메일](./docs/readme/n8n-email.png)
+* **QuickChart API** (Chart.js config → PNG) 를 호출해 3개의 차트 이미지를 생성
+* 주간 트리거로 MySQL에 저장된 질문 로그를 집계하고, 학습카테고리/질문유형/일자별 통계를 생성 및 이메일 발송
+
+
 ---
 
 ## 🛠 기술 스택 (Tech Stack)
 
 | 구분 | 기술 | 비고 |
 | --- | --- | --- |
-| **Backend** | <img src="[https://img.shields.io/badge/n8n-FF6584?logo=n8n&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/n8n-FF6584%3Flogo%3Dn8n%26logoColor%3Dwhite)"/> <img src="[https://img.shields.io/badge/Express-000000?logo=express&logoColor=white](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)"/> | 워크플로우 자동화 및 크롤링 |
-| **Frontend** | <img src="[https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/Next.js-000000%3Flogo%3Dnextdotjs%26logoColor%3Dwhite)"/> | 채팅 및 퀴즈 인터페이스 |
-| **AI / LLM** | <img src="[https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/OpenAI-412991%3Flogo%3Dopenai%26logoColor%3Dwhite)"/> | GPT-4o / Embedding |
-| **Database** | <img src="[https://img.shields.io/badge/Pinecone-000000?logo=pinecone&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/Pinecone-000000%3Flogo%3Dpinecone%26logoColor%3Dwhite)"/> <img src="[https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/MySQL-4479A1%3Flogo%3Dmysql%26logoColor%3Dwhite)"/> | 벡터 검색 및 RDBMS |
-| **DevOps** | <img src="[https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/Docker-2496ED%3Flogo%3Ddocker%26logoColor%3Dwhite)"/> <img src="[https://img.shields.io/badge/ELK_Stack-005571?logo=elastic&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/ELK_Stack-005571%3Flogo%3Delastic%26logoColor%3Dwhite)"/> | 컨테이너 배포 및 로그 시각화 |
+| **Backend** | <img src="https://img.shields.io/badge/n8n-FF6584?logo=n8n&logoColor=white" /> <img src="https://img.shields.io/badge/Express-000000?logo=express&logoColor=white" /> | 워크플로우 자동화 및 크롤링 |
+| **Frontend** | <img src="https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white" /> | 채팅 및 퀴즈 인터페이스 |
+| **AI / LLM** | <img src="https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white" /> | GPT / Embedding |
+| **Database** | <img src="https://img.shields.io/badge/Pinecone-000000?logo=pinecone&logoColor=white" /> <img src="https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white" /> <img src="https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white" /> | 벡터 검색 / RDBMS / 캐시·메모리 |
+| **Analytics** | <img src="https://img.shields.io/badge/Elastic%20Stack-005571?logo=elastic&logoColor=white" /> | 로그 수집·검색·시각화 |
+| **DevOps** | <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" /> | 컨테이너 배포 |
+
 
 ---
 
@@ -142,14 +150,14 @@ docker-compose up -d
 ## 🔧 트러블슈팅 (Troubleshooting)
 
 ### 1. **Docker Compose 볼륨 이슈**
-
+![볼륨이슈](./docs/readme/docekr-compose-volume-issue.png)
 * **증상**: 컨테이너 재실행 시 DB 데이터 초기화
 * **원인**: 볼륨 매핑 경로 및 권한 설정 오류로 데이터가 정상적으로 유지되지 않음
 * **해결**: 호스트 볼륨 권한 수정 및 `docker-compose.yml` 내 볼륨 설정 재확인
   (기존 볼륨 백업 후 초기화, 원본 데이터 복원 방식 적용)
 
 ### 2. **VirtualBox 리소스 할당 문제**
-
+![리소스이슈](./docs/readme/virtualbox-issue.png)
 * **증상**: 리소스 부족으로 CPU·메모리 증설 후 오히려 성능 저하
 * **원인**: vCPU 과다 할당으로 Co-Scheduling 오버헤드 발생 → CPU Ready Time 증가
 * **해결**: vCPU 수를 최소화하여 스케줄링 대기 시간 감소 및 성능 개선
