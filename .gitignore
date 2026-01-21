@@ -52,8 +52,8 @@ temp/
 /node_modules
 
 # next.js
-cuterabbit/.next/
-cuterabbit/out/
+frontend/.next/
+frontend/out/
 
 # production
 /build
