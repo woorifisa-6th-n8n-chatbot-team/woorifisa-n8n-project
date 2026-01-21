@@ -1,16 +1,11 @@
-# 📘 우리 FISA 클라우드엔지니어링 챗봇
+# AI 학습 도우미 (n8n Workflow)
+
 ![배너](./docs/readme/banner.png)
-우리 FISA 엔지니어링반 챗봇은 수업 내용, 과제 일정, 수강 후기 등을 한 곳에 모아 실시간으로 안내하는 학습 파트너입니다. n8n 기반 워크플로우와 LLM을 결합해 질의응답, 일정 공지, 후기 요약을 자동화하며, 공용 지식 저장소를 최신 상태로 유지합니다.
 
----
+## 📖 프로젝트 개요
 
-## 🎯 프로젝트 목표
+**"그 리눅스 명령어 뭐였지?"** 수업을 듣고도 뒤돌아서면 까먹는 학생들과, 학생들이 진짜 이해했는지 궁금한 강사님들을 위한 **RAG(검색 증강 생성) 기반 학습 보조 솔루션**입니다.
 
-- 수업 개념 정리, 실습 가이드 등 수업 관련 질문에 신뢰도 높은 답변을 제공한다.
-- 학습일지와 수강 후기를 자동 수집·요약해 최신 지식베이스로 통합한다.
-- 수강생 참여도와 피드백을 기반으로 주간 보고서를 생성해 강사진과 공유한다.
-
----
 
 ## 👨‍👩‍👧 팀원 소개
 
@@ -21,85 +16,153 @@
 
 ---
 
-## 🧭 서비스 개요
+### 🎯 기획 의도
 
-우리 FISA 엔지니어링반 챗봇은 교육팀의 커리큘럼 자료와 학습 기록을 RAG 기반 대화 경험에 결합해, 수업 질문 응답과 일정·후기 브리핑을 동시에 제공하는 플랫폼입니다. n8n 워크플로와 LLM을 결합해 강의 일정 조회부터 주간 질문 리포트 발행까지 한 번에 처리하도록 설계했습니다.
-
----
-
-## 🔧 시스템 구성
-
-### 1. 학습일지·후기 수집 파이프라인
-
-- 매주 월요일 09시에 트리거되어 수강생 학습일지와 후기 게시글을 자동으로 크롤링합니다.
-- Velog는 GraphQL API로, Tistory는 FireCrawl 노드로 수집해 포맷을 통일합니다.
-- OpenAI 임베딩으로 문서를 벡터화하고 Pinecone에 적재해 챗봇이 최신 학습 맥락과 정성 피드백을 참조합니다.
-
-  | 툴        | 역할                     | 비고          |
-  | --------- | ------------------------ | ------------- |
-  | Velog API | GraphQL로 문서 메타 조회 |               |
-  | FireCrawl | 정적 페이지 크롤링       | Tistory 대응  |
-  | Pinecone  | 학습일지 벡터 스토리지   | cosine metric |
-
-### 2. 강의자료·일정 수집 파이프라인
-
-- Notion에 게시된 강의 자료와 수업 일정 공지를 일간 스케줄러로 수집합니다.
-- FireCrawl과 GPT 노드를 연결해 이미지 중심 자료도 요약 텍스트로 변환합니다.
-- 학습일지와 동일한 Pinecone 인덱스를 사용해 자료와 일정, 후기 간 상호 참조가 가능하도록 구성했습니다.
-
-### 3. 대화형 챗봇 엔진
-
-- 사용자의 질문을 n8n HTTP Trigger로 수신하고, Retrieval QA 노드가 벡터 스토어에서 수업 자료·학습일지·후기 중 관련 문서를 조회합니다.
-- MongoDB Chat Memory로 대화 맥락을 보존해 연속 질문에도 정확도로 대응합니다.
-- Google Sheet 일정 정보를 조회해 주간 일정, 발표 계획, 과제 마감 등을 실시간 제공합니다.
-
-### 4. 주간 보고서 자동화
-
-- Google Sheet에 저장된 대화 로그와 일정 데이터를 주별로 집계합니다.
-- GPT 노드가 주요 Q&A와 이슈를 요약하고, n8n Google Docs 노드가 템플릿 문서를 갱신합니다.
-- 완성된 보고서는 Google Drive에 보관하고, Gmail 노드로 강사진에게 발송합니다.
+* **학생 입장**: GPT나 Gemini 같은 LLM이 내 수업 진도와 자료를 알고 있다면? "그때 배운 가상머신 설정법 알려줘"라고 물었을 때, 수업 자료를 바탕으로 정확한 답변을 제공하여 학습 효율을 극대화합니다.
+* **강사/매니저 입장**: "다들 이해하셨죠?"라는 질문에 침묵으로 일관하는 학생들. 챗봇 로그와 퀴즈 데이터를 통해 학생들의 이해도를 객관적인 지표로 시각화하고 관리합니다.
 
 ---
 
-## 🗂 데이터 저장 전략
+## 🏗 시스템 아키텍처
 
-| 저장 방식    | 특징                         | 채택 여부 | 최종 판단 근거                      |
-| ------------ | ---------------------------- | --------- | ----------------------------------- |
-| Google Sheet | 접근성 높고 관리 용이        | 보조      | 운영 로그와 일정 관리 용도로 사용   |
-| MongoDB      | 정형/비정형 데이터 저장 가능 | 보조      | 대화 메모리 저장에 활용             |
-| VectorDB     | 유사도 기반 검색 최적화      | 핵심      | 학습일지·강의자료 RAG 인덱스로 사용 |
+### 전체 데이터 흐름
 
-VectorDB는 Pinecone을 사용하며, OpenAI 임베딩 모델과 동일한 Dimension으로 인덱스를 구성해 검색 정확도를 확보했습니다.
+![시스템 아키텍처](./docs/readme/n8n-all.png)
+
+
+### 주요 구성 요소
+
+1. **Crawler (Express + FireCrawl)**
+- 노션 
+![노션크롤러](./docs/readme/n8n-notion.png)
+- 티스토리
+![티스토리크롤러](./docs/readme/n8n-tistory.png)
+- 벨로그
+![벨로그크롤러](./docs/readme/n8n-velog.png)
+* Notion API의 제약을 극복하기 위한 커스텀 크롤러
+* Tistory, Velog 등 기술 블로그의 주차별 진도 및 핵심 내용 수집
+
+2. **AI Chatbot (n8n + OpenAI)**
+![챗봇](./docs/readme/n8n-chat.png)
+* **RAG 적용**: VectorDB(Pinecone)와 MySQL에 저장된 수업 데이터를 참조하여 답변
+* **Chat Memory**: 이전 대화 문맥을 유지하며 자연스러운 질의응답 처리
+
+
+3. **Quiz System**
+![퀴즈](./docs/readme/n8n-quiz.png)
+* 학생의 질문 기록과 현재 진도 데이터를 바탕으로 맞춤형 퀴즈 자동 생성
+* 풀이 결과는 즉시 MySQL에 저장되어 성취도 분석에 활용
+
+
+4. **Analytics Dashboard (ELK Stack)**
+* **Logstash**: MySQL에 적재된 채팅/퀴즈 로그 수집
+* **Elasticsearch & Kibana**: 학생별 질문 빈도, 퀴즈 정답률, 이해도 추이를 시각화
+
 
 ---
 
-## 📡 운영 워크플로
+## 🛠 기술 스택 (Tech Stack)
 
-1. 사용자가 n8n에 접속해 챗봇에 질문을 한다.
-2. n8n 워크플로가 질문을 파싱하고 Pinecone에서 관련 문서를 검색한다.
-3. LLM이 검색 결과와 일정 데이터를 결합해 답변을 생성한다.
-4. 응답은 사용자 채널로 전달되고, 로그와 통계는 Google Sheet와 Docs에 자동 반영된다.
-
----
-
-## 🛠 기술 스택
-
-- n8n Docker: 워크플로 오케스트레이션
-- OpenAI GPT-4.1 & text-embedding-3-small: 답변 생성과 임베딩
-- Pinecone VectorDB, MongoDB Atlas, Google Workspace (Sheet, Docs, Drive, Gmail): LLM 연결 도구
-- FireCrawl : 크롤러
+| 구분 | 기술 | 비고 |
+| --- | --- | --- |
+| **Backend** | <img src="[https://img.shields.io/badge/n8n-FF6584?logo=n8n&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/n8n-FF6584%3Flogo%3Dn8n%26logoColor%3Dwhite)"/> <img src="[https://img.shields.io/badge/Express-000000?logo=express&logoColor=white](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)"/> | 워크플로우 자동화 및 크롤링 |
+| **Frontend** | <img src="[https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/Next.js-000000%3Flogo%3Dnextdotjs%26logoColor%3Dwhite)"/> | 채팅 및 퀴즈 인터페이스 |
+| **AI / LLM** | <img src="[https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/OpenAI-412991%3Flogo%3Dopenai%26logoColor%3Dwhite)"/> | GPT-4o / Embedding |
+| **Database** | <img src="[https://img.shields.io/badge/Pinecone-000000?logo=pinecone&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/Pinecone-000000%3Flogo%3Dpinecone%26logoColor%3Dwhite)"/> <img src="[https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/MySQL-4479A1%3Flogo%3Dmysql%26logoColor%3Dwhite)"/> | 벡터 검색 및 RDBMS |
+| **DevOps** | <img src="[https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/Docker-2496ED%3Flogo%3Ddocker%26logoColor%3Dwhite)"/> <img src="[https://img.shields.io/badge/ELK_Stack-005571?logo=elastic&logoColor=white](https://www.google.com/search?q=https://img.shields.io/badge/ELK_Stack-005571%3Flogo%3Delastic%26logoColor%3Dwhite)"/> | 컨테이너 배포 및 로그 시각화 |
 
 ---
 
-## 📂 프로젝트 구조
+## 📸 주요 기능 및 화면
 
-현재 리포지토리는 문서 위주로 정리되어 있으며, 서비스 운영에 맞춰 아래 구성을 확장하고 있습니다.
+| 채팅 화면 | 퀴즈 화면 |
+| --- | --- |
+| ![채팅 화면]({{채팅 화면 사진}}) | ![퀴즈 화면]({{퀴즈 화면 사진}}) |
+| **n8n 연동 실시간 질의응답** | **Webhook 기반 퀴즈 생성** |
 
-```text
+| 채팅 대시보드 | 퀴즈 대시보드 |
+| --- | --- |
+| ![채팅 대시보드]({{채팅 대시보드 사진}}) | ![퀴즈 대시보드]({{퀴즈 대시보드 사진}}) |
+| **질문 키워드 및 빈도 분석** | **학습 성취도 시각화** |
+
+---
+
+## 📂 프로젝트 구조 (Directory Structure)
+
+```
 .
-├── flows/               # n8n 워크플로 정의 (JSON)
-├── docs/                # 기획 및 운영 문서
-└── README.md            # 프로젝트 개요 및 진행 상황
+├── frontend/          # Next.js 기반 채팅 & 퀴즈 클라이언트
+├── backend/           # n8n 워크플로우 JSON 및 설정 파일
+├── crawler/           # Express 기반 수업 자료 크롤러
+├── db/                # MySQL 초기화 스크립트 및 스키마
+├── elk/               # Logstash, Elasticsearch, Kibana 설정
+├── docker/            # Docker Compose 및 환경 설정
+└── assets/            # 문서용 이미지 리소스
+
 ```
 
 ---
+
+## 📬 설치 및 실행 (Getting Started)
+
+**Prerequisites**
+
+* Docker & Docker Compose
+
+**1. 레포지토리 클론**
+
+```bash
+git clone https://github.com/your-repo/ai-learning-helper.git
+cd ai-learning-helper
+```
+
+**2. 교안 Notion URL 설정**
+```
+echo "NOTION_URL={{https:example.com}}" > ./notion-crawler/.env
+```
+
+**2. 컨테이너 실행**
+
+```bash
+docker-compose up -d
+
+```
+
+**3. 서비스 접속**
+
+* **Web**: `http://localhost:4000`
+* **N8N**: `http://localhost:5678`
+* **Kibana (Dashboard)**: `http://localhost:5601`
+
+**4. N8N credentials 설정**
+* 메뉴얼: `[메뉴얼](./docs/manual.md)`
+
+---
+
+## 🔧 트러블슈팅 (Troubleshooting)
+
+### 1. **Docker Compose 볼륨 이슈**
+
+* **증상**: 컨테이너 재실행 시 DB 데이터 초기화
+* **원인**: 볼륨 매핑 경로 및 권한 설정 오류로 데이터가 정상적으로 유지되지 않음
+* **해결**: 호스트 볼륨 권한 수정 및 `docker-compose.yml` 내 볼륨 설정 재확인
+  (기존 볼륨 백업 후 초기화, 원본 데이터 복원 방식 적용)
+
+### 2. **VirtualBox 리소스 할당 문제**
+
+* **증상**: 리소스 부족으로 CPU·메모리 증설 후 오히려 성능 저하
+* **원인**: vCPU 과다 할당으로 Co-Scheduling 오버헤드 발생 → CPU Ready Time 증가
+* **해결**: vCPU 수를 최소화하여 스케줄링 대기 시간 감소 및 성능 개선
+
+### 3. **Notion API 사용 불가**
+
+* 제공된 교안 URL로 Notion API 접근 불가
+* FireCrawl 무료 플랜 크롤링 제한
+* **대응**: 외부 API 사용 대신 기능 직접 구현
+
+---
+
+## 🚀 향후 계획 (Roadmap)
+
+* **이벤트 기반 알림 시스템**: 특정 주제에 대한 질문이 폭주할 경우 강사에게 즉시 슬랙/이메일 알림 발송
+* **배포 자동화**: Docker Compose setup 스크립트에 Kibana 대시보드 Import 과정 포함
