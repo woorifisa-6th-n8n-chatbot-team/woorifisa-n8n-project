@@ -50,7 +50,7 @@ Notion, Blog 등 비정형 자료를 벡터화해 질의에 근거 기반 답변
 ---
 
 ### 🎯 솔루션: 조직/과정 맞춤형 지식 AI 어시스턴트
-
+![n8n-workflow-process](./docs/readme/n8n-workflow-process.png)
 분산된 자료(Notion·블로그·문서·공지·이슈 등)를 **RAG 파이프라인**으로 연결하고, 사용자의 질의/활용 로그를 **n8n으로 자동화 수집·처리**하여 **답변 품질 + 운영 인사이트**를 동시에 제공합니다.
 
 ---
@@ -330,7 +330,7 @@ output {
 
 ### 1. Data Persistence & Volume Mapping Strateg
 
-![볼륨이슈](./docs/readme/docekr-compose-volume-issue.png)
+![볼륨이슈](./docs/readme/volumeissue.png)
 
 - **Issue**: Docker Compose 볼륨 재생성 이슈.
 - **Analysis**: 호스트-컨테이너 간 볼륨 마운트 경로 설정 미흡.
