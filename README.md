@@ -323,8 +323,8 @@ output {
 **1. Clone Repository**
 
 ```bash
-git clone https://github.com/your-repo/ai-learning-helper.git
-cd ai-learning-helper
+git clone https://github.com/woorifisa-6th-n8n-chatbot-team/woorifisa-n8n-project
+cd woorifia-n8n-project
 
 ```
 
